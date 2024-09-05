@@ -7,15 +7,12 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Europe/Rome
-      GROCY_CALENDAR_FIRST_DAY_OF_WEEK: 1
-      GROCY_CURRENCY: EUR
-      GROCY_AUTH_CLASS: Grocy\Middleware\ReverseProxyAuthMiddleware
-      GROCY_REVERSE_PROXY_AUTH_HEADER: X-authentik-username
     networks:
       - outside
       - reverse-proxy-network
     volumes:
-      - '{{ grocy_data_folder }}:/config/data'
+      - './config.php:/config/data/config.php:ro'
+      - '{{ (grocy_data_folder, "grocy.db") | path_join }}:/config/data/grocy.db'
     labels:
       traefik.enable: 'true'
       traefik.http.routers.grocy.entryPoints: https
