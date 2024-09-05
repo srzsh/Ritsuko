@@ -19,7 +19,7 @@ PARTED_OUTPUT=$(parted -s "$1" unit MiB print)
 DISK_END=$(printf "$PARTED_OUTPUT" | grep "Disk $1" | cut -d ' ' -f3 | tr -d 'MiB')
 DISK_LAST_PARTITION_NUMBER=$(printf "$PARTED_OUTPUT" | tail -n1 | cut -d ' ' -f2)
 SWAP_PARTITION_NUMBER=$((DISK_LAST_PARTITION_NUMBER+1))
-SWAP_START=$((DISK_END-2*1024))
+SWAP_START=$((DISK_END-4*1024))
 CONFIG_END=$((DISK_END-512))
 parted -s "$1" mkpart primary linux-swap "${SWAP_START}MiB" "${CONFIG_END}MiB"
 parted -s "$1" mkpart primary ext4 "${CONFIG_END}MiB" 100%
