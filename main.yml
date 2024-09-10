@@ -90,9 +90,6 @@
     - role: edge/grocy
       tags:
         - grocy
-    - role: edge/piped
-      tags:
-        - piped
   handlers:
     - &firewalld-handler
       name: Add internal networks in firewalld
