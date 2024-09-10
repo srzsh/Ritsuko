@@ -15,13 +15,10 @@ services:
       - '{{ (grocy_data_folder, "grocy.db") | path_join }}:/config/data/grocy.db'
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.grocy.entryPoints: https
       traefik.http.routers.grocy.rule: Host(`grocy.magisystem.xyz`)
       traefik.http.routers.grocy.middlewares: grocy-authentik
-      traefik.http.routers.grocy-api.entryPoints: https
       traefik.http.routers.grocy-api.rule: Host(`grocy.magisystem.xyz`) && PathPrefix(`/api`) && HeaderRegexp(`GROCY-API-KEY`, `^.*$`)
       traefik.http.routers.grocy-api.service: grocy
-      traefik.http.routers.grocy-authentik.entryPoints: https
       traefik.http.routers.grocy-authentik.rule: Host(`grocy.magisystem.xyz`) && PathPrefix(`/outpost.goauthentik.io/`)
       traefik.http.routers.grocy-authentik.service: 'authentik@{{ authentik_provider }}'
       traefik.http.middlewares.grocy-authentik.forwardauth.address: https://grocy.magisystem.xyz/outpost.goauthentik.io/auth/traefik

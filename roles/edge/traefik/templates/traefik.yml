@@ -17,6 +17,7 @@ entryPoints:
         entryPoint:
           to: https
           scheme: https
+    asDefault: {{ 'http' is in traefik_default_entrypoints | ternary('true', 'false') }}
 
   https:
     address: ":443"
@@ -24,6 +25,7 @@ entryPoints:
     http:
       tls:
         certResolver: tls-resolver
+    asDefault: {{ 'https' is in traefik_default_entrypoints | ternary('true', 'false') }}
 
   admin:
     address: ":8080"

@@ -42,13 +42,10 @@ services:
     labels:
       com.centurylinklabs.watchtower.depends-on: bitwarden-database
       traefik.enable: 'true'
-      traefik.http.routers.bwarden-web.entryPoints: https
       traefik.http.routers.bwarden-web.rule: Host(`bwarden.magisystem.xyz`) && !PathPrefix(`/admin`)
       traefik.http.routers.bwarden-web.service: bwarden-web
-      traefik.http.routers.bwarden-admin.entryPoints: admin
       traefik.http.routers.bwarden-admin.rule: PathPrefix(`/admin`)
       traefik.http.routers.bwarden-admin.service: bwarden-web
-      traefik.http.routers.bwarden-websocket.entryPoints: https
       traefik.http.routers.bwarden-websocket.rule: Host(`bwarden.magisystem.xyz`) && Path(`/notifications/hub`)
       traefik.http.routers.bwarden-websocket.service: bwarden-websocket
       traefik.http.services.bwarden-web.loadbalancer.server.port: '80'

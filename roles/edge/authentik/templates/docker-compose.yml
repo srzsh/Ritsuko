@@ -65,7 +65,6 @@ services:
       - '{{ wireguard_ip }}:9000:9000'
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.authentik.entryPoints: https
       traefik.http.routers.authentik.rule: Host(`auth.magisystem.xyz`)
       traefik.http.services.authentik.loadbalancer.server.port: '9000'
     depends_on:

@@ -25,14 +25,11 @@ services:
       - '{{ navidrome_music_folder }}:/music:ro'
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.navidrome.entryPoints: https
       traefik.http.routers.navidrome.rule: Host(`music.magisystem.xyz`)
       traefik.http.routers.navidrome.middlewares: navidrome-auth
       traefik.http.routers.navidrome.service: navidrome
-      traefik.http.routers.navidrome-api-no-auth.entryPoints: https
       traefik.http.routers.navidrome-api-no-auth.rule: Host(`music.magisystem.xyz`) && (PathPrefix(`/rest`) || PathPrefix(`/share`))
       traefik.http.routers.navidrome-api-no-auth.service: navidrome
-      traefik.http.routers.navidrome-auth.entryPoints: https
       traefik.http.routers.navidrome-auth.rule: Host(`music.magisystem.xyz`) && PathPrefix(`/outpost.goauthentik.io/`)
       traefik.http.routers.navidrome-auth.service: 'authentik@{{ authentik_provider }}'
       traefik.http.middlewares.navidrome-auth.forwardauth.address: https://music.magisystem.xyz/outpost.goauthentik.io/auth/traefik
@@ -64,10 +61,8 @@ services:
       - '{{ navidrome_music_folder }}:/music:ro'
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.slskd.entryPoints: https
       traefik.http.routers.slskd.rule: Host(`music.slsk.magisystem.xyz`)
       traefik.http.routers.slskd.middlewares: slskd-auth
-      traefik.http.routers.slskd-auth.entryPoints: https
       traefik.http.routers.slskd-auth.rule: Host(`music.slsk.magisystem.xyz`) && PathPrefix(`/outpost.goauthentik.io/`)
       traefik.http.routers.slskd-auth.service: 'authentik@{{ authentik_provider }}'
       traefik.http.middlewares.slskd-auth.forwardauth.address: https://music.slsk.magisystem.xyz/outpost.goauthentik.io/auth/traefik

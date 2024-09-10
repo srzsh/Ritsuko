@@ -43,7 +43,6 @@ services:
     labels:
       com.centurylinklabs.watchtower.monitor-only: 'true'
       traefik.enable: 'true'
-      traefik.http.routers.nextcloud.entryPoints: https
       traefik.http.routers.nextcloud.rule: Host(`cloud.magisystem.xyz`)
       traefik.http.routers.nextcloud.middlewares: nextcloud-header
       traefik.http.middlewares.nextcloud-header.headers.stsSeconds: 15552000
@@ -66,7 +65,6 @@ services:
     labels:
       com.centurylinklabs.watchtower.monitor-only: 'true'
       traefik.enable: 'true'
-      traefik.http.routers.collabora.entryPoints: https
       traefik.http.routers.collabora.rule: Host(`office.magisystem.xyz`) && !PathPrefix(`/cool/getMetrics`)
       traefik.http.services.collabora.loadbalancer.server.port: 9980
 
