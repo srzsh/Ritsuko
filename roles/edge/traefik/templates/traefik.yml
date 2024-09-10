@@ -12,12 +12,16 @@ api:
 entryPoints:
   http:
     address: ":80"
+    {% if 'http' is not in traefik_default_entrypoints -%}
     http:
       redirections:
         entryPoint:
           to: https
           scheme: https
-    asDefault: {{ 'http' is in traefik_default_entrypoints | ternary('true', 'false') }}
+    asDefault: false
+    {%- else -%}
+    asDefault: true
+    {%- endif %}
 
   https:
     address: ":443"
