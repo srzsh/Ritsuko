@@ -1,2 +1,2 @@
 ---
-traefik_default_entrypoints: ['https', 'http']
+traefik_default_entrypoints: ['http']
