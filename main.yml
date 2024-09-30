@@ -87,9 +87,6 @@
       tags:
         - cloud
         - nextcloud
-    - role: edge/grocy
-      tags:
-        - grocy
   handlers:
     - &firewalld-handler
       name: Add internal networks in firewalld
