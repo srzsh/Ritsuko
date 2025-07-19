@@ -1,6 +1,0 @@
----
-- name: Running tasks based on role
-  ansible.builtin.include_role:
-    name: edge/authentik
-    tasks_from: '{{ authentik_role }}'
-    defaults_from: '{{ authentik_role }}'

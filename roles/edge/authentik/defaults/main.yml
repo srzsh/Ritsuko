@@ -1,2 +1,0 @@
----
-authentik_role: '{{ undef(hint="Role of a server in a network (server|client)") }}'

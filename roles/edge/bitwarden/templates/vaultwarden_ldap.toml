@@ -1,9 +1,0 @@
-vaultwarden_url = "http://vault:80"
-vaultwarden_admin_token = "{{ bitwarden_admin_password }}"
-ldap_host = "ldap"
-ldap_port = 3389
-ldap_bind_dn = "{{ bitwarden_ldap_username }}"
-ldap_bind_password = "{{ bitwarden_ldap_password }}"
-ldap_search_base_dn = "{{ bitwarden_ldap_users_base_dn }}"
-ldap_search_filter = "{{ bitwarden_ldap_users_filter }}"
-ldap_sync_interval_seconds = 3600

@@ -1,3 +1,0 @@
----
-ansible_user: '{{ undef(hint="Username to use for the ssh connection") if ansible_connection is defined and ansible_connection == "ssh" }}'
-ansible_ssh_private_key_file: '{{ undef(hint="Path to the private key to use for the ssh connection") if ansible_connection is defined and ansible_connection == "ssh" }}'

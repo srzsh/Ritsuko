@@ -5,8 +5,9 @@
 set -ex
 
 # Download image and write it to disk
-curl -sL 'https://download.opensuse.org/distribution/leap-micro-current/appliances/openSUSE-Leap-Micro.x86_64-Default.raw.xz' | \
-	xz --decompress > "$1"
+TMPFILE="$(mktemp -q 'openSUSE-MicroOS.x86_64.XXXXXXXXXX.qcow2')"
+wget -O "$TMPFILE" 'https://download.opensuse.org/tumbleweed/appliances/openSUSE-MicroOS.x86_64-ContainerHost-kvm-and-xen.qcow2'
+qemu-img convert -f qcow2 -O host_device "$TMPFILE" "$1"
 
 # Move GPT trailer to end of disk
 sfdisk --relocate gpt-bak-std "$1"

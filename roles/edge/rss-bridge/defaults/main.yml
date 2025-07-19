@@ -1,3 +1,0 @@
----
-authentik_role: '{{ undef(hint="Role of a server in a network (server|client)") }}'
-rssbridge_config_folder: '{{ (container_config_folder | mandatory, "rssbridge") | path_join }}'

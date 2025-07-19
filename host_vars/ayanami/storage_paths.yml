@@ -1,4 +1,0 @@
----
-container_volumes_folder: '{{ (storage_pool_folder, "container-volumes") | path_join }}'
-container_config_folder: '{{ (ansible_facts.env.HOME, "config") | path_join }}'
-storage_pool_folder: /mnt/storage-pool

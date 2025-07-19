@@ -1,2 +1,0 @@
----
-authentik_provider: '{{ (authentik_role == "server") | ternary("docker", "file") }}'
