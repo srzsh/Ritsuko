@@ -5,8 +5,8 @@
 set -ex
  
 #-------- M4 Defined Variables
-NEW_USER="new_user_name"
-NEW_USER_SSH_PUBKEY="new_user_ssh_pubkey"
+NEW_USER='new_user_name'
+NEW_USER_SSH_PUBKEY='new_user_ssh_pubkey'
 NEW_SSH_PORT='new_ssh_port'
 
 #-------- Timezone
