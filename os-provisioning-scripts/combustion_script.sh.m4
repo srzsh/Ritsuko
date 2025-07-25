@@ -3,6 +3,11 @@
 # Network is needed to install packages
 
 set -ex
+ 
+#-------- M4 Defined Variables
+NEW_USER="new_user_name"
+NEW_USER_SSH_PUBKEY="new_user_ssh_pubkey"
+NEW_SSH_PORT='new_ssh_port'
 
 #-------- Timezone
 rm /etc/localtime || true
@@ -11,7 +16,7 @@ ln -s /usr/share/zoneinfo/Europe/Rome /etc/localtime
 #-------- Partitions
 
 # Removing Config partition, Growing SWAP until end of the disk, Growing data partition to fill the empty space
-DISK_PATH='{{ ('/dev/', hetzner_install_installation_drive) | path_join }}'
+DISK_PATH=$(df --output=source / | tail -n1)
 PARTED_OUTPUT=$(parted -s "$DISK_PATH" unit MiB print)
 CONFIG_PART_NUMBER=$(printf "$PARTED_OUTPUT" | tail -n 1 | cut -d ' ' -f2)
 SWAP_PART=$(printf "$PARTED_OUTPUT" | tail -n 2 | head -n 1)
@@ -32,28 +37,28 @@ printf "UUID=$(blkid | grep 'TYPE="swap"' | sed 's/.* UUID="\([a-zA-Z0-9-]*\)".*
 
 #-------- User/Authentication
 # Mount home subvolume
-mount -o subvol=/@/home /dev/disk/by-partlabel/p.lxroot /home
+# mount -o subvol=/@/home /dev/disk/by-partlabel/p.lxroot /home
+mount /home
 
 # Install docker
 zypper --non-interactive install docker
 
 # Create User
-useradd --create-home -G docker {{ hetzner_install_ansible_user }}
-SSH_FOLDER="{{ ("/home/", hetzner_install_ansible_user, ".ssh") | path_join }}"
+useradd --create-home -G docker "$NEW_USER"
+HOME_FOLDER="/home/$NEW_USER"
+SSH_FOLDER="${SSH_FOLDER}/.ssh"
 mkdir -pm700 "$SSH_FOLDER"
-cat > "{{ ("/home/", hetzner_install_ansible_user, ".ssh", "authorized_keys") | path_join }}" <<EOF
-{{ lookup('ansible.builtin.file', ansible_ssh_private_key_file+'.pub') }}
-EOF
-chown -R --reference="{{ ("/home/", hetzner_install_ansible_user) | path_join }}" "$SSH_FOLDER"
+cat > "${SSH_FOLDER}/authorized_keys" <<<"$NEW_USER_SSH_PUBKEY"
+chown -R --reference="$HOME_FOLDER" "$SSH_FOLDER"
 
 #-------- firewall
-zypper --non-interactive install firewalld python3-firewall
-#systemctl enable firewalld.service
-#firewall-cmd --permanent --add-port=69
+# zypper --non-interactive install firewalld python3-firewall
+# systemctl enable firewalld.service
+# firewall-cmd --permanent --add-port=69
 
 #-------- SELinux
 # Add port to selinux
-semanage port --add -t ssh_port_t -p tcp {{ hetzner_install_ansible_port }}
+semanage port --add -t ssh_port_t -p tcp "$NEW_SSH_PORT"
 # Installing selinux policy to snapshot /var[/container-volumes]
 #Assuming current working directory contains /combustion
 #TODO: Currently this fails with 'child process /usr/lib/selinux/hll/pp failed with code: 255. (No such file or directory)'
@@ -63,7 +68,7 @@ semodule -i ./snapperd_snapshot_var.pp
 
 cat > /etc/sudoers.d/90-allow-user-nopasswd <<-EOF
 	# Allow passwordless sudo to template_user
-	{{ hetzner_install_ansible_user }} ALL=(ALL:ALL) NOPASSWD: ALL
+	$NEW_USER ALL=(ALL:ALL) NOPASSWD: ALL
 EOF
 
 echo 'Include /etc/ssh/sshd_config.d/*' >> /etc/ssh/sshd_config
@@ -82,7 +87,7 @@ EOF
 
 cat > /etc/ssh/sshd_config.d/90-change-port.conf <<-EOF
 	# Changing the ssh port
-	Port {{ hetzner_install_ansible_port }}
+	Port $NEW_SSH_PORT
 EOF
 
 systemctl enable sshd.service
@@ -91,19 +96,19 @@ sed -i '/^rotate/s/-\?[0-9]\+/0/' /etc/logrotate.conf
 
 #-------- BTRFS + Snapper
 # Mounting the correct subvolume
-mount -o subvol=/@/var /dev/disk/by-partlabel/p.lxroot /var
+mount /var
 
 # Creating subvolume and adding config to snapper
-SUBVOLUME_PATH="{{ ("/var/", "container-volumes") | path_join }}"
+SUBVOLUME_PATH="/var/container-volumes"
 btrfs -q subvolume create "$SUBVOLUME_PATH"
 btrfs -q property set "$SUBVOLUME_PATH" compression zstd
 btrfs quota enable "$SUBVOLUME_PATH"
-chown '--reference={{ ("/home/", hetzner_install_ansible_user) | path_join }}' "$SUBVOLUME_PATH"
-btrfs -q subvolume create "{{ ("/var/", "container-volumes", ".snapshots") | path_join }}"
+chown --reference="$HOME_FOLDER" "$SUBVOLUME_PATH"
+btrfs -q subvolume create "${SUBVOLUME_PATH}/.snapshots"
 
 cat > /etc/snapper/configs/container-volumes <<-EOF
 	# subvolume to snapshot
-	SUBVOLUME="{{ ("/var/", "container-volumes") | path_join }}"
+	SUBVOLUME="$SUBVOLUME_PATH"
 	
 	# qgroup of the subvolume
 	QGROUP="$(btrfs subvolume show $SUBVOLUME_PATH | grep Quota | cut -f4)"
@@ -170,27 +175,3 @@ cat > /etc/systemd/system/snapper-cleanup.timer.d/schedule.conf <<-EOF
 	[Timer]
 	OnUnitActiveSec=1h
 EOF
-
-#-------- Docker
-# Uninstall podman
-zypper --non-interactive remove podman
-
-# Install docker's python modules
-python3 -m ensurepip
-python3 -m pip install docker
-
-# Forcing subuids/subgids
-sed -i '/^DOCKER_OPTS/s/"\(.*\)"/"\1 --userns-remap default --default-address-pool base=172.17.0.0/12,size=24"/' /etc/sysconfig/docker
-
-# Enabling docker
-systemctl enable docker.service
-
-# Installing compose for ansible_user
-COMPOSE_VERSION='v2.24.5'
-COMPOSE_INSTALL_COMMAND=$(cat <<EOF
-mkdir -p "$HOME/.docker/cli-plugins"
-curl -SL "https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-linux-x86_64" -o "$HOME/.docker/cli-plugins/docker-compose"
-chmod +x "$HOME/.docker/cli-plugins/docker-compose"
-EOF
-)
-su -c "$COMPOSE_INSTALL_COMMAND" - {{ hetzner_install_ansible_user }}
