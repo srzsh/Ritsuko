@@ -99,7 +99,7 @@ sed -i '/^rotate/s/-\?[0-9]\+/0/' /etc/logrotate.conf
 mount /var
 
 # Creating subvolume and adding config to snapper
-SUBVOLUME_PATH="/var/container-volumes"
+SUBVOLUME_PATH="/var/magisystem"
 btrfs -q subvolume create "$SUBVOLUME_PATH"
 btrfs -q property set "$SUBVOLUME_PATH" compression zstd
 btrfs quota enable "$SUBVOLUME_PATH"
