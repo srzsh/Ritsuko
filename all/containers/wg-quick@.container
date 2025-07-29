@@ -1,0 +1,21 @@
+[Unit]
+Description=Wireguard container for config %i.conf
+
+[Container]
+ContainerName=wg-quick-%i
+AutoUpdate=local
+Image=wg-quick.build
+Exec=%i
+AddCapability=NET_ADMIN SYS_MODULE
+# Sysctl=net.ipv4.conf.all.src_valid_mark=1
+UserNS=host
+Network=host
+# PublishPort=51820/udp
+Volume=/lib/modules:/lib/modules:ro
+Volume=/etc/magisystem/wireguard:/etc/wireguard:ro
+
+[Service]
+ExecStartPre=bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/src_valid_mark'
+
+[Install]
+WantedBy=default.target

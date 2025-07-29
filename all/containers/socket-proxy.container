@@ -1,0 +1,20 @@
+[Unit]
+Description=Socket Proxy container
+Wants=wg-quick@wg0.container
+After=wg-quick@wg0.container
+
+[Container]
+ContainerName=socket-proxy
+AutoUpdate=registry
+Image=lscr.io/linuxserver/socket-proxy:latest
+UserNS=host
+ReadOnly=true
+Tmpfs=/run
+Environment=CONTAINERS=1
+Network=services.network
+PublishPort=10.0.0.1:2375:2375
+PublishPort=[fc00::1]:2375:2375
+Volume=/run/podman/podman.sock:/var/run/docker.sock:ro
+
+[Install]
+WantedBy=default.target
