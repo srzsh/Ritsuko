@@ -87,8 +87,6 @@ EOF
 
 systemctl enable sshd.service
 
-sed -i '/^rotate/s/-\?[0-9]\+/0/' /etc/logrotate.conf
-
 #-------- BTRFS + Snapper
 # Mounting the correct subvolume
 mount /var
