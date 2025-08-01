@@ -1,8 +1,0 @@
-[Unit]
-Description=Daily Wireguard Image build
-
-[Timer]
-OnCalendar=daily
-
-[Install]
-WantedBy=timers.target
