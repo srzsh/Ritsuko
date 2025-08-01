@@ -1,0 +1,7 @@
+[Unit]
+Description=Daily Podman image prune
+Before=podman-auto-update.service
+
+[Service]
+Type=oneshot
+ExecStart=podman image prune -f
