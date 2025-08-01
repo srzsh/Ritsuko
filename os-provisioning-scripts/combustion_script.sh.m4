@@ -51,11 +51,6 @@ mkdir -pm700 "$SSH_FOLDER"
 cat > "${SSH_FOLDER}/authorized_keys" <<<"$NEW_USER_SSH_PUBKEY"
 chown -R --reference="$HOME_FOLDER" "$SSH_FOLDER"
 
-#-------- firewall
-# zypper --non-interactive install firewalld python3-firewall
-# systemctl enable firewalld.service
-# firewall-cmd --permanent --add-port=69
-
 #-------- SELinux
 # Add port to selinux
 semanage port --add -t ssh_port_t -p tcp "$NEW_SSH_PORT"
