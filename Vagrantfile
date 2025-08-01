@@ -27,6 +27,7 @@ Vagrant.configure("2") do |config|
         mkdir -p /etc/magisystem
         cp -Pru /vagrant/all/etc/* /etc
         cp -Pu /vagrant/all/containers/* /etc/containers/systemd
+        cp -Pru /vagrant/"$HOSTNAME"/etc/* /etc
         cp -Pu /vagrant/"$HOSTNAME"/containers/* /etc/containers/systemd
         cp -Pru /vagrant/"$HOSTNAME"/config/* /etc/magisystem
         systemctl daemon-reload

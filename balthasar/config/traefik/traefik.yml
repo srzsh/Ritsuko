@@ -13,18 +13,20 @@ api:
 entryPoints:
   http:
     address: ":80"
+    allowACMEByPass: true
     http:
       redirections:
         entryPoint:
           to: https
           scheme: https
+          permanent: true
+          priority: 1
     asDefault: false
+
   https:
     address: ":443"
+    allowACMEByPass: true
     http3: {}
-    http:
-      tls:
-        certResolver: tls-resolver
     asDefault: true
 
   admin:

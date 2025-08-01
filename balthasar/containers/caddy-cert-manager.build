@@ -1,0 +1,8 @@
+[Unit]
+Description=Caddy Certificate Manager Image build
+
+[Build]
+File=/etc/containers/systemd/caddy-cert-manager.Containerfile
+ImageTag=caddy-cert-manager:latest
+Pull=newer
+ForceRM=true
