@@ -13,6 +13,7 @@ rm /etc/localtime || true
 ln -s /usr/share/zoneinfo/Europe/Rome /etc/localtime
 
 #-------- Partitions
+zypper --non-interactive install parted
 
 # Removing Config partition, Growing SWAP until end of the disk, Growing data partition to fill the empty space
 DISK_PATH=$(df --output=source / | tail -n1)
@@ -34,18 +35,16 @@ partprobe "$DISK_PATH" && udevadm settle
 #TODO: Filter by disk before looking for the swap partition
 printf "UUID=$(blkid | grep 'TYPE="swap"' | sed 's/.* UUID="\([a-zA-Z0-9-]*\)".*/\1/') none swap defaults 0 0" >> /etc/fstab
 
+zypper --non-interactive remove -u parted
+
 #-------- User/Authentication
 # Mount home subvolume
-# mount -o subvol=/@/home /dev/disk/by-partlabel/p.lxroot /home
 mount /home
 
-# Install docker
-zypper --non-interactive install docker
-
 # Create User
-useradd --create-home -G docker "$NEW_USER"
+useradd --create-home "$NEW_USER"
 HOME_FOLDER="/home/$NEW_USER"
-SSH_FOLDER="${SSH_FOLDER}/.ssh"
+SSH_FOLDER="${HOME_FOLDER}/.ssh"
 mkdir -pm700 "$SSH_FOLDER"
 cat > "${SSH_FOLDER}/authorized_keys" <<<"$NEW_USER_SSH_PUBKEY"
 chown -R --reference="$HOME_FOLDER" "$SSH_FOLDER"
@@ -72,8 +71,5 @@ cat > /etc/ssh/sshd_config.d/40-disable-password-authentication.conf <<-EOF
 EOF
 
 systemctl enable sshd.service
-
-
-
 
 sinclude(host_name`/combustion_script.sh.m4')
