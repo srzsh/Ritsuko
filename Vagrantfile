@@ -12,8 +12,12 @@ Vagrant.configure("2") do |config|
       libvirt.storage :file, device: "vdb", size: "40G"
     end
     node.vm.provision :shell, inline: <<~'EOS'
-      sudo apt-get -y update && sudo apt-get -y install parted
-      sudo bash /vagrant/os-provisioning-scripts/install_ignition_hetzner.sh /dev/vdb
+      apt-get -y update && sudo apt-get -y install parted
+      bash /vagrant/os-provisioning-scripts/install_ignition_hetzner.sh /dev/vdb
+      mount /dev/vdb5 /mnt
+      mkdir /mnt/combustion
+      cp /vagrant/os-provisioning-scripts/balthasar/files/* /mnt/combustion
+      # umount /mnt
     EOS
   end
 
