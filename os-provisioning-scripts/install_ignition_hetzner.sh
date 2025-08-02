@@ -27,3 +27,4 @@ parted -s "$1" mkpart primary ext4 "${CONFIG_END}MiB" 100%
 partprobe "$1" && udevadm settle
 
 mkswap "${1}${SWAP_PARTITION_NUMBER}"
+mkfs.ext4 -L combustion "${1}$((SWAP_PARTITION_NUMBER+1))"
