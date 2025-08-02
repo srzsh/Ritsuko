@@ -7,7 +7,6 @@ set -ex
 #-------- M4 Defined Variables
 NEW_USER='new_user_name'
 NEW_USER_SSH_PUBKEY='new_user_ssh_pubkey'
-NEW_SSH_PORT='new_ssh_port'
 
 #-------- Timezone
 rm /etc/localtime || true
@@ -51,14 +50,6 @@ mkdir -pm700 "$SSH_FOLDER"
 cat > "${SSH_FOLDER}/authorized_keys" <<<"$NEW_USER_SSH_PUBKEY"
 chown -R --reference="$HOME_FOLDER" "$SSH_FOLDER"
 
-#-------- SELinux
-# Add port to selinux
-semanage port --add -t ssh_port_t -p tcp "$NEW_SSH_PORT"
-# Installing selinux policy to snapshot /var[/container-volumes]
-#Assuming current working directory contains /combustion
-#TODO: Currently this fails with 'child process /usr/lib/selinux/hll/pp failed with code: 255. (No such file or directory)'
-semodule -i ./snapperd_snapshot_var.pp
-
 #-------- Sudoers + SSHd + Logrotate
 
 cat > /etc/sudoers.d/90-allow-user-nopasswd <<-EOF
@@ -80,91 +71,9 @@ cat > /etc/ssh/sshd_config.d/40-disable-password-authentication.conf <<-EOF
 	ChallengeResponseAuthentication no
 EOF
 
-cat > /etc/ssh/sshd_config.d/90-change-port.conf <<-EOF
-	# Changing the ssh port
-	Port $NEW_SSH_PORT
-EOF
-
 systemctl enable sshd.service
 
-#-------- BTRFS + Snapper
-# Mounting the correct subvolume
-mount /var
 
-# Creating subvolume and adding config to snapper
-SUBVOLUME_PATH="/var/magisystem"
-btrfs -q subvolume create "$SUBVOLUME_PATH"
-btrfs -q property set "$SUBVOLUME_PATH" compression zstd
-btrfs quota enable "$SUBVOLUME_PATH"
-chown --reference="$HOME_FOLDER" "$SUBVOLUME_PATH"
-btrfs -q subvolume create "${SUBVOLUME_PATH}/.snapshots"
 
-cat > /etc/snapper/configs/container-volumes <<-EOF
-	# subvolume to snapshot
-	SUBVOLUME="$SUBVOLUME_PATH"
-	
-	# qgroup of the subvolume
-	QGROUP="$(btrfs subvolume show $SUBVOLUME_PATH | grep Quota | cut -f4)"
-	
-	# filesystem type
-	FSTYPE="btrfs"
-	
-	# fraction of the filesystems space the snapshots may use
-	SPACE_LIMIT="0.5"
-	
-	# fraction of the filesystems space that should be free
-	FREE_LIMIT="0.2"
-	
-	# users and groups allowed to work with config
-	ALLOW_USERS=""
-	ALLOW_GROUPS=""
-	
-	# sync users and groups from ALLOW_USERS and ALLOW_GROUPS to .snapshots
-	# directory
-	SYNC_ACL="no"
-	
-	# start comparing pre- and post-snapshot in background after creating
-	# post-snapshot
-	BACKGROUND_COMPARISON="yes"
-	
-	# run daily number cleanup
-	NUMBER_CLEANUP="yes"
-	
-	# limit for number cleanup
-	NUMBER_MIN_AGE="0"
-	NUMBER_LIMIT="0"
-	NUMBER_LIMIT_IMPORTANT="10"
-	
-	# create hourly snapshots
-	TIMELINE_CREATE="yes"
-	
-	# cleanup hourly snapshots after some time
-	TIMELINE_CLEANUP="yes"
-	
-	# limits for timeline cleanup
-	TIMELINE_MIN_AGE="1800"
-	TIMELINE_LIMIT_HOURLY="6"
-	TIMELINE_LIMIT_DAILY="2"
-	TIMELINE_LIMIT_WEEKLY="0"
-	TIMELINE_LIMIT_MONTHLY="0"
-	TIMELINE_LIMIT_YEARLY="0"
-	
-	# cleanup empty pre-post-pairs
-	EMPTY_PRE_POST_CLEANUP="yes"
-	
-	# limits for empty pre-post-pair cleanup
-	EMPTY_PRE_POST_MIN_AGE="0"
-EOF
 
-umount /var
-sed -i '/^SNAPPER_CONFIGS/s/"\(.*\)"/"\1 container-volumes"/' /etc/sysconfig/snapper
-
-sed -i \
-	-e '/^BTRFS_BALANCE_MOUNTPOINTS/s$"\(.*\)"$"\1:/var"$' \
-	-e '/^BTRFS_BALANCE_\(D\|M\)USAGE/s/".*"/"50"/' /etc/sysconfig/btrfsmaintenance
-
-mkdir -p /etc/systemd/system/snapper-cleanup.timer.d
-cat > /etc/systemd/system/snapper-cleanup.timer.d/schedule.conf <<-EOF
-	[Timer]
-	OnUnitActiveSec=1h
-EOF
+sinclude(host_name`/combustion_script.sh.m4')
