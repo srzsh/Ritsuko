@@ -26,6 +26,7 @@ Vagrant.configure("2") do |config|
       node.vm.box = "opensuse/Tumbleweed.x86_64"
       node.vm.hostname = "node-#{i}"
       node.vm.provision :shell, inline: <<~'EOS'
+        zypper --non-interactive dup
         zypper --non-interactive install podman
         HOSTNAME="$(cat /etc/hostname)"
         mkdir -p /etc/magisystem
