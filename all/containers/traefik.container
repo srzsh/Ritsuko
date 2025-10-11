@@ -20,9 +20,9 @@ Volume=/etc/magisystem/traefik:/etc/traefik:ro
 Volume=/var/magisystem/traefik/acme.json:/acme.json:U
 
 [Service]
-ExecStartPre=mkdir -m 600 -p /var/magisystem/traefik
+ExecStartPre=mkdir -m 700 -p /var/magisystem/traefik
 ExecStartPre=sh -c 'test -e /var/magisystem/traefik/acme.json || echo > /var/magisystem/traefik/acme.json'
-ExecStartPre=chmod 600 /var/magisystem/traefik/acme.json
+ExecStartPre=chmod 700 /var/magisystem/traefik/acme.json
 
 [Install]
 WantedBy=default.target
