@@ -1,0 +1,7 @@
+---
+http:
+  serversTransports:
+    kanidm:
+      # insecureSkipVerify: true
+      rootcas:
+        - /certs/kanidm/ca.pem

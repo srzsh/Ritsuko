@@ -1,0 +1,23 @@
+[Unit]
+Description=Kanidm generate certificates
+ConditionPathExists=|!/etc/magisystem/kanidm/certs/chain.pem
+ConditionPathExists=|!/etc/magisystem/kanidm/certs/key.pem
+
+[Container]
+ContainerName=kanidm-gen-certs
+AutoUpdate=registry
+Image=docker.io/kanidm/server:latest
+Exec=kanidmd cert-generate
+Network=none
+Volume=/etc/magisystem/kanidm:/config
+Volume=/var/magisystem/kanidm:/data:U
+User=1000
+Group=1000
+Environment=KANIDM_CONFIG=/config/server.toml
+
+[Service]
+Type=oneshot
+ExecStartPre=mkdir -m 700 -p /var/magisystem/kanidm
+ExecStartPre=chmod -R o= /etc/magisystem/kanidm
+ExecStartPre=chmod g=rwX /etc/magisystem/kanidm/certs
+ExecStartPre=podman run --rm -v /etc/magisystem/kanidm:/config docker.io/library/alpine chown -R :1000 /config
