@@ -1,0 +1,5 @@
+[Unit]
+Description=Magisystem Services
+
+[Install]
+WantedBy=default.target

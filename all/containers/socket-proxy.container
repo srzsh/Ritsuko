@@ -17,4 +17,4 @@ PublishPort=[fc00::1]:2375:2375
 Volume=/run/podman/podman.sock:/var/run/docker.sock:ro
 
 [Install]
-WantedBy=default.target
+WantedBy=magisystem.target

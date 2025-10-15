@@ -18,4 +18,4 @@ Volume=/etc/magisystem/wireguard:/etc/wireguard:ro
 ExecStartPre=bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/src_valid_mark'
 
 [Install]
-WantedBy=default.target
+WantedBy=magisystem.target
