@@ -1,6 +1,6 @@
 [Unit]
 Description=Socket Proxy container
-Wants=wg-quick@wg0.container
+Requires=wg-quick@wg0.container
 After=wg-quick@wg0.container
 
 [Container]
