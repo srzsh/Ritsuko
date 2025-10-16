@@ -14,7 +14,6 @@ User=1000
 Group=1000
 Environment=KANIDM_CONFIG=/config/server.toml
 Label=traefik.enable=true
-Label=traefik.http.routers.kanidm.entrypoints=http,https
 Label="traefik.http.routers.kanidm.rule=Host(`auth.magisystem.xyz`)"
 Label=traefik.http.services.kanidm.loadBalancer.server.port=8443
 Label=traefik.http.services.kanidm.loadBalancer.serversTransport=kanidm@file
