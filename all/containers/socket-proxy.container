@@ -1,7 +1,9 @@
 [Unit]
 Description=Socket Proxy container
-Requires=wg-quick@wg0.container
+Upholds=wg-quick@wg0.container
 After=wg-quick@wg0.container
+StartLimitIntervalSec=1m
+StartLimitBurst=10
 
 [Container]
 ContainerName=socket-proxy
@@ -15,6 +17,12 @@ Network=services.network
 PublishPort=10.0.0.1:2375:2375
 PublishPort=[fc00::1]:2375:2375
 Volume=/run/podman/podman.sock:/var/run/docker.sock:ro
+
+[Service]
+Restart=on-failure
+RestartSec=100ms
+RestartSteps=9
+RestartMaxDelaySec=1s
 
 [Install]
 WantedBy=magisystem.target
