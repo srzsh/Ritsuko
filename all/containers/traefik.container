@@ -1,6 +1,6 @@
 [Unit]
 Description=Traefik container
-Requires=socket-proxy.container
+Wants=socket-proxy.container
 After=socket-proxy.container
 
 [Container]
