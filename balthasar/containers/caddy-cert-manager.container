@@ -20,4 +20,4 @@ Label=traefik.http.services.caddy-cert-manager.loadBalancer.server.port=8443
 ExecStartPre=mkdir -m 700 -p /var/magisystem/caddy-cert-manager
 
 [Install]
-WantedBy=default.target
+WantedBy=magisystem.target
