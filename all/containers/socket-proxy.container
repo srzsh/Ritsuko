@@ -1,7 +1,5 @@
 [Unit]
 Description=Socket Proxy container
-Upholds=wg-quick@wg0.container
-After=wg-quick@wg0.container
 StartLimitIntervalSec=1m
 StartLimitBurst=10
 
@@ -14,8 +12,6 @@ ReadOnly=true
 Tmpfs=/run
 Environment=CONTAINERS=1
 Network=services.network
-PublishPort=10.0.0.1:2375:2375
-PublishPort=[fc00::1]:2375:2375
 Volume=/run/podman/podman.sock:/var/run/docker.sock:ro
 
 [Service]
