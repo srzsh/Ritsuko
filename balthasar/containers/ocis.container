@@ -1,0 +1,32 @@
+[Unit]
+Description=oCIS Container
+Wants=ocis-init.container
+After=ocis-init.container
+
+[Container]
+ContainerName=ocis
+AutoUpdate=registry
+Image=docker.io/owncloud/ocis:latest
+Network=services.network
+Environment="OCIS_URL=https://cloud.magisystem.xyz"
+# Environment=OCIS_LOG_LEVEL=info
+Environment=OCIS_LOG_LEVEL=warn
+Environment=PROXY_TLS=false
+Environment=OCIS_EXCLUDE_RUN_SERVICES=idm,idp
+Environment=OCIS_ENABLE_OCM=false
+Environment="OCIS_OIDC_ISSUER=https://auth.magisystem.xyz"
+# Environment=PROXY_ENABLE_APP_AUTH=true
+Volume=/etc/magisystem/ocis:/etc/ocis:ro
+Volume=/var/magisystem/ocis:/var/lib/ocis:U
+User=1000
+Group=1000
+# PublishPort=9200:9200
+Label=traefik.enable=true
+Label="traefik.http.routers.ocis.rule=Host(`cloud.magisystem.xyz`)"
+Label=traefik.http.services.ocis.loadBalancer.server.port=9200
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/ocis
+
+[Install]
+WantedBy=magisystem.target
