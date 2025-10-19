@@ -1,7 +1,7 @@
 version="2"
 
 bindaddress = "[::]:8443"
-# ldapbindaddress = "[::]:3636"
+ldapbindaddress = "[::]:3636"
 
 db_path = "/data/kanidm.db"
 # db_fs_type = "zfs"
