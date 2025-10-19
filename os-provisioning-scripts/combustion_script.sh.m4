@@ -72,4 +72,23 @@ EOF
 
 systemctl enable sshd.service
 
+#-------- Configure Podman
+zypper --non-interactive install podman
+
+UGMAP='containers:1000000:65536'
+echo "$UGMAP" >> /etc/subuid
+echo "$UGMAP" >> /etc/subgid
+
+mkdir -p /etc/containers/containers.conf.d
+cp ./containers.conf /etc/containers/containers.conf.d/magisystem.conf
+
+#-------- Setup age for sops
+zypper --non-interactive install age sops
+
+SOPS_AGE_KEY_FOLDER="${HOME_FOLDER}/.config/sops/age"
+mkdir -pm700 "$SOPS_AGE_KEY_FOLDER"
+age-keygen -o "$SOPS_AGE_KEY_FOLDER/keys.txt"
+chmod u=rw,g=,o= "$SOPS_AGE_KEY_FOLDER/keys.txt"
+chown -R --reference="$HOME_FOLDER" "$SOPS_AGE_KEY_FOLDER"
+
 sinclude(host_name`/combustion_script.sh.m4')

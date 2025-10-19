@@ -12,11 +12,11 @@ Environment=OCIS_INSECURE=true
 Environment="OCIS_URL=https://cloud.magisystem.xyz"
 Environment=OCIS_LOG_LEVEL=info
 Environment=PROXY_TLS=false
-Volume=/etc/magisystem/ocis:/etc/ocis:U
-# User=1000
-# Group=1000
+User=1000
+Group=1000
+Volume=/etc/magisystem/ocis:/etc/ocis:idmap=uids=@0-1000-1;gids=@0-1000-1
 # PublishPort=9200:9200
 
 [Service]
 Type=oneshot
-# ExecStartPre=mkdir -m 700 -p /var/magisystem/ocis
+ExecStartPre=chmod -R o= /etc/magisystem/ocis

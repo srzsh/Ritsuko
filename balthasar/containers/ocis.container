@@ -16,10 +16,10 @@ Environment=OCIS_EXCLUDE_RUN_SERVICES=idm,idp
 Environment=OCIS_ENABLE_OCM=false
 Environment="OCIS_OIDC_ISSUER=https://auth.magisystem.xyz"
 # Environment=PROXY_ENABLE_APP_AUTH=true
-Volume=/etc/magisystem/ocis:/etc/ocis:ro
-Volume=/var/magisystem/ocis:/var/lib/ocis:U
 User=1000
 Group=1000
+Volume=/etc/magisystem/ocis:/etc/ocis:ro,idmap=uids=@0-1000-1
+Volume=/var/magisystem/ocis:/var/lib/ocis:U
 # PublishPort=9200:9200
 Label=traefik.enable=true
 Label="traefik.http.routers.ocis.rule=Host(`cloud.magisystem.xyz`)"
@@ -27,6 +27,7 @@ Label=traefik.http.services.ocis.loadBalancer.server.port=9200
 
 [Service]
 ExecStartPre=mkdir -m 700 -p /var/magisystem/ocis
+ExecStartPre=chmod -R o= /etc/magisystem/ocis
 
 [Install]
 WantedBy=magisystem.target

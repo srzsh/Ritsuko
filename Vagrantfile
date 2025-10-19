@@ -28,6 +28,12 @@ Vagrant.configure("2") do |config|
       node.vm.provision :shell, inline: <<~'EOS'
         zypper --non-interactive dup
         zypper --non-interactive install podman
+        mkdir -p /etc/containers/containers.conf.d
+        UGMAP='containers:1000000:65536'
+        grep '^containers' /etc/subuid || echo "$UGMAP" >> /etc/subuid
+        grep '^containers' /etc/subgid || echo "$UGMAP" >> /etc/subgid
+        cp -Pu /vagrant/os-provisioning-scripts/containers.conf /etc/containers/containers.conf.d/magisystem.conf
+
         HOSTNAME="$(cat /etc/hostname)"
         mkdir -p /etc/magisystem
         cp -Pru /vagrant/all/etc/* /etc
