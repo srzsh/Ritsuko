@@ -16,13 +16,13 @@ ln -s /usr/share/zoneinfo/Europe/Rome /etc/localtime
 zypper --non-interactive install parted
 
 # Removing Config partition, Growing SWAP until end of the disk, Growing data partition to fill the empty space
-DISK_PATH=$(df --output=source / | tail -n1)
+DISK_PATH=$(df --output=source / | tail -n1 | tr -d '[0-9]')
 PARTED_OUTPUT=$(parted -s "$DISK_PATH" unit MiB print)
-CONFIG_PART_NUMBER=$(printf "$PARTED_OUTPUT" | tail -n 1 | cut -d ' ' -f2)
-SWAP_PART=$(printf "$PARTED_OUTPUT" | tail -n 2 | head -n 1)
-SWAP_PART_NUMBER=$(printf "$SWAP_PART" | cut -d ' ' -f2)
-DATA_PART_NUMBER=$(printf "$PARTED_OUTPUT" | tail -n 3 | head -n 1 | cut -d ' ' -f2)
-DATA_PART_END=$(($(printf "$SWAP_PART" | tr -s ' ' | cut -d ' ' -f 3 | tr -d 'MiB')-1))
+CONFIG_PART_NUMBER=$(printf '%s' "$PARTED_OUTPUT" | tail -n 1 | cut -d ' ' -f2)
+SWAP_PART=$(printf '%s' "$PARTED_OUTPUT" | tail -n 2 | head -n 1)
+SWAP_PART_NUMBER=$(printf '%s' "$SWAP_PART" | cut -d ' ' -f2)
+DATA_PART_NUMBER=$(printf '%s' "$PARTED_OUTPUT" | tail -n 3 | head -n 1 | cut -d ' ' -f2)
+DATA_PART_END=$(($(printf '%s' "$SWAP_PART" | tr -s ' ' | cut -d ' ' -f 3 | tr -d 'MiB')-1))
 #TODO: Use sfdisk/sgdisk
 parted -s "$DISK_PATH" rm "$CONFIG_PART_NUMBER" || true
 parted -s "$DISK_PATH" resizepart "$SWAP_PART_NUMBER" 100% || true
@@ -33,7 +33,7 @@ partprobe "$DISK_PATH" && udevadm settle
 
 # Adding swap to fstab
 #TODO: Filter by disk before looking for the swap partition
-printf "UUID=$(blkid | grep 'TYPE="swap"' | sed 's/.* UUID="\([a-zA-Z0-9-]*\)".*/\1/') none swap defaults 0 0" >> /etc/fstab
+printf '%s' "UUID=$(blkid | grep 'TYPE="swap"' | sed 's/.* UUID="\([a-zA-Z0-9-]*\)".*/\1/') none swap defaults 0 0" >> /etc/fstab
 
 zypper --non-interactive remove -u parted
 
@@ -49,7 +49,7 @@ mkdir -pm700 "$SSH_FOLDER"
 cat > "${SSH_FOLDER}/authorized_keys" <<<"$NEW_USER_SSH_PUBKEY"
 chown -R --reference="$HOME_FOLDER" "$SSH_FOLDER"
 
-#-------- Sudoers + SSHd + Logrotate
+#-------- Sudoers + sshd + Logrotate
 
 cat > /etc/sudoers.d/90-allow-user-nopasswd <<-EOF
 	# Allow passwordless sudo to template_user
