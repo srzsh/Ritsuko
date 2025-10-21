@@ -65,9 +65,13 @@ cat > /etc/ssh/sshd_config.d/40-prohibit-root-login.conf <<-EOF
 EOF
 
 cat > /etc/ssh/sshd_config.d/40-disable-password-authentication.conf <<-EOF
-	# Disable Password and Challenge Authentication
+	# Disable Password and Keyboard Interactive Authentication
 	PasswordAuthentication no
-	ChallengeResponseAuthentication no
+	KbdInteractiveAuthentication no
+EOF
+
+cat > /etc/ssh/sshd_config.d/40-use-pam.conf <<-EOF
+	UsePAM yes
 EOF
 
 systemctl enable sshd.service
