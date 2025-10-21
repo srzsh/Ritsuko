@@ -1,7 +1,7 @@
 [Unit]
 Description=Socket Proxy container
-StartLimitIntervalSec=1m
-StartLimitBurst=10
+Requires=podman.socket
+After=podman.socket
 
 [Container]
 ContainerName=socket-proxy
@@ -13,12 +13,3 @@ Tmpfs=/run
 Environment=CONTAINERS=1
 Network=services.network
 Volume=/run/podman/podman.sock:/var/run/docker.sock:ro
-
-[Service]
-Restart=on-failure
-RestartSec=100ms
-RestartSteps=9
-RestartMaxDelaySec=1s
-
-[Install]
-WantedBy=magisystem.target
