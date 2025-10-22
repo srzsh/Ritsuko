@@ -16,6 +16,7 @@ ln -s /usr/share/zoneinfo/Europe/Rome /etc/localtime
 zypper --non-interactive install parted
 
 # Removing Config partition, Growing SWAP until end of the disk, Growing data partition to fill the empty space
+# TODO: Cope with swap partition not existing
 DISK_PATH=$(df --output=source / | tail -n1 | tr -d '[0-9]')
 PARTED_OUTPUT=$(parted -s "$DISK_PATH" unit MiB print)
 CONFIG_PART_NUMBER=$(printf '%s' "$PARTED_OUTPUT" | tail -n 1 | cut -d ' ' -f2)
