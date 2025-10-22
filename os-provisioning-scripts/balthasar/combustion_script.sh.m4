@@ -13,6 +13,7 @@ EOF
 
 # Installing selinux policy to snapshot /var[/magisystem]
 semodule -i ./snapperd_snapshot_var.pp
+semodule -i ./connect-container-to-runtime-socket.pp
 
 zypper --non-interactive remove -u policycoreutils-python-utils
 
