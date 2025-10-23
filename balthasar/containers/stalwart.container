@@ -6,12 +6,12 @@ ContainerName=stalwart
 AutoUpdate=registry
 Image=ghcr.io/stalwartlabs/stalwart:latest-alpine
 Network=services.network
-Volume=/var/magisystem/stalwart:/opt/stalwart:U
 User=1000
 Group=1000
 PublishPort=25:25
 PublishPort=465:465
 PublishPort=993:993
+Volume=/var/magisystem/stalwart:/opt/stalwart:U,Z
 Label=traefik.enable=true
 Label="traefik.http.routers.stalwart.rule=Host(`stalwart.magisystem.xyz`)"
 Label=traefik.http.services.stalwart.loadBalancer.server.port=8080

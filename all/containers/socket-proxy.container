@@ -12,4 +12,4 @@ ReadOnly=true
 Tmpfs=/run
 Environment=CONTAINERS=1
 Network=services.network
-Volume=/run/podman/podman.sock:/var/run/docker.sock:ro
+Volume=/run/podman/podman.sock:/var/run/docker.sock:ro,z
