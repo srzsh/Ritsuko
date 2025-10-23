@@ -2,6 +2,7 @@
 http:
   serversTransports:
     kanidm:
-      # insecureSkipVerify: true
-      rootcas:
-        - /certs/kanidm/ca.pem
+      insecureSkipVerify: true
+      # tls: failed to verify certificate: x509: cannot validate certificate for ... because it doesn't contain any IP SANs
+      # rootcas:
+      #   - /certs/kanidm/ca.pem
