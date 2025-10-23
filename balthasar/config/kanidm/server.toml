@@ -6,8 +6,8 @@ ldapbindaddress = "[::]:3636"
 db_path = "/data/kanidm.db"
 # db_fs_type = "zfs"
 
-tls_chain = "/config/certs/chain.pem"
-tls_key = "/config/certs/key.pem"
+tls_chain = "/certs/chain.pem"
+tls_key = "/certs/key.pem"
 
 # log_level = "debug"
 
