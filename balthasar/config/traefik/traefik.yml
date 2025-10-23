@@ -12,7 +12,7 @@ api:
 
 entryPoints:
   http:
-    address: ":80"
+    address: "[::]:80"
     allowACMEByPass: true
     http:
       redirections:
@@ -21,22 +21,24 @@ entryPoints:
           scheme: https
           permanent: true
           priority: 1
-    asDefault: false
 
   https:
-    address: ":443"
+    address: "[::]:443"
     allowACMEByPass: true
     http3: {}
+    http:
+      tls:
+        certResolver: tls-resolver
     asDefault: true
 
   admin:
-    address: ":8080"
+    address: "[::]:8080"
 
 certificatesResolvers:
   tls-resolver:
     acme:
       email: "srsh@magisystem.xyz"
-      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      # caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       tlsChallenge: {}
 
 # log:
