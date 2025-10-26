@@ -80,7 +80,7 @@ systemctl enable sshd.service
 #-------- Configure Podman
 zypper --non-interactive install podman
 
-UGMAP='containers:1000000:65536'
+UGMAP='containers:1000000:9000000'
 echo "$UGMAP" >> /etc/subuid
 echo "$UGMAP" >> /etc/subgid
 
