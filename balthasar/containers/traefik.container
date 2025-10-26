@@ -5,6 +5,7 @@ After=socket-proxy.container
 
 [Container]
 ContainerName=traefik
+Pod=reverse-proxy.pod
 AutoUpdate=registry
 Image=docker.io/library/traefik:3
 Network=services.network
