@@ -1,0 +1,28 @@
+[Unit]
+Description=Nextcloud Container
+Upholds=nextcloud-cron.timer
+PropagatesStopTo=nextcloud-cron.timer
+
+[Container]
+ContainerName=nextcloud
+AutoUpdate=registry
+Image=docker.io/library/nextcloud:stable
+Network=services.network
+Environment=SQLITE_DATABASE=nextcloud-db
+Environment=NEXTCLOUD_ADMIN_USER=admin
+Environment=NEXTCLOUD_ADMIN_PASSWORD=admin
+Environment="NEXTCLOUD_TRUSTED_DOMAINS=cloud.magisystem.xyz nextcloud.magisystem.xyz"
+Environment=APACHE_DISABLE_REWRITE_IP=1
+Environment="TRUSTED_PROXIES=10.1.0.0/16 fc00:0:0:100::/64"
+# Volume=/etc/magisystem/nextcloud:/etc/nextcloud:ro,Z,idmap=uids=@0-1000-1
+Volume=/var/magisystem/nextcloud:/var/www/html:U,Z
+Label=traefik.enable=true
+Label="traefik.http.routers.nextcloud.rule=Host(`cloud.magisystem.xyz`) || Host(`nextcloud.magisystem.xyz`)"
+Label=traefik.http.services.nextcloud.loadBalancer.server.port=80
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/nextcloud
+ExecStartPost=/usr/bin/podman exec nextcloud chown -R www-data /var/www/html
+
+[Install]
+WantedBy=magisystem.target

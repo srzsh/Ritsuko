@@ -27,6 +27,3 @@ Label=traefik.http.services.opencloud.loadBalancer.server.port=9200
 
 [Service]
 ExecStartPre=mkdir -m 700 -p /var/magisystem/opencloud/data
-
-[Install]
-WantedBy=magisystem.target

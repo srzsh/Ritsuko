@@ -29,6 +29,9 @@ entryPoints:
     http:
       tls:
         certResolver: tls-resolver
+    transport:
+      respondingTimeouts:
+        readTimeout: 10m
     asDefault: true
 
   admin:
