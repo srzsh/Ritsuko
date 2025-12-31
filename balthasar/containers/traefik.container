@@ -30,5 +30,5 @@ ExecStartPre=mkdir -m 700 -p /var/magisystem/caddy-cert-manager/caddy/certificat
 ExecStartPre=sh -c 'test -e /var/magisystem/traefik/acme.json || echo '{}' > /var/magisystem/traefik/acme.json'
 ExecStartPre=chmod 700 /var/magisystem/traefik/acme.json
 
-[Install]
-WantedBy=magisystem.target
+# [Install]
+# WantedBy=magisystem.target
