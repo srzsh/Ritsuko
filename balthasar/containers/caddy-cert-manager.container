@@ -3,7 +3,7 @@ Description=Caddy container
 
 [Container]
 ContainerName=caddy-cert-manager
-# Pod=reverse-proxy.pod
+Pod=reverse-proxy.pod
 StartWithPod=false
 AutoUpdate=local
 Image=caddy-cert-manager.build
