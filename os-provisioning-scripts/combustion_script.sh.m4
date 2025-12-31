@@ -50,7 +50,7 @@ mkdir -pm700 "$SSH_FOLDER"
 cat > "${SSH_FOLDER}/authorized_keys" <<<"$NEW_USER_SSH_PUBKEY"
 chown -R --reference="$HOME_FOLDER" "$SSH_FOLDER"
 
-#-------- Sudoers + sshd + Logrotate
+#-------- Sudoers + sshd + sysctl
 
 cat > /etc/sudoers.d/90-allow-user-nopasswd <<-EOF
 	# Allow passwordless sudo to template_user
@@ -74,6 +74,8 @@ EOF
 cat > /etc/ssh/sshd_config.d/40-use-pam.conf <<-EOF
 	UsePAM yes
 EOF
+
+mv sys-udp.conf /etc/sysctl.d/udp.conf
 
 systemctl enable sshd.service
 
