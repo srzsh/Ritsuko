@@ -1,0 +1,9 @@
+[Unit]
+Description=Reverse Proxy pod
+
+[Pod]
+PodName=reverse-proxy
+Network=none
+
+[Install]
+WantedBy=magisystem.target

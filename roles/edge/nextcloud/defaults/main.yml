@@ -1,7 +1,0 @@
----
-nextcloud_config_folder: '{{ (container_config_folder | mandatory, "nextcloud") | path_join }}'
-nextcloud_data_folder: '{{ (container_volumes_folder | mandatory, "nextcloud") | path_join }}'
-nextcloud_database_password: '{{ undef(hint="Nextcloud''s database password") }}'
-nextcloud_docserver_secret: '{{ undef(hint="Nextcloud''s Document Server secret") }}'
-nextcloud_mail_from: '{{ undef(hint="Email address nextcloud will send as, should have a correct @domain") }}'
-traefik_dynamic_config_folder: '{{ (container_config_folder | mandatory, "traefik", "configs") | path_join }}'

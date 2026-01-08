@@ -1,0 +1,23 @@
+[Unit]
+Description=Kanidm generate certificates
+ConditionPathExists=|!/var/magisystem/kanidm/certs/chain.pem
+ConditionPathExists=|!/var/magisystem/kanidm/certs/key.pem
+
+[Container]
+ContainerName=kanidm-gen-certs
+AutoUpdate=registry
+Image=docker.io/kanidm/server:latest
+Exec=kanidmd cert-generate
+Network=none
+Environment=KANIDM_CONFIG=/config/server.toml
+Volume=/etc/magisystem/kanidm:/config:ro,Z,idmap=gids=@0-1000-1
+Volume=/var/magisystem/kanidm/data:/data:U,Z
+Volume=/var/magisystem/kanidm/certs:/certs:U,z
+User=1000
+Group=1000
+
+[Service]
+Type=oneshot
+ExecStartPre=mkdir -m 700 -p /var/magisystem/kanidm/data
+ExecStartPre=mkdir -m 755 -p /var/magisystem/kanidm/certs
+ExecStartPre=chmod -R o= /etc/magisystem/kanidm

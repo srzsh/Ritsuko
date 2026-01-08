@@ -1,0 +1,10 @@
+[Unit]
+Description=Seafile Redis Container
+
+[Container]
+ContainerName=seafile-redis
+Pod=seafile.pod
+AutoUpdate=registry
+Image=docker.io/library/redis
+User=1000
+Group=1000

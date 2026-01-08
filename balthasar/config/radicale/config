@@ -1,0 +1,22 @@
+[server]
+hosts = 0.0.0.0:5232, [::]:5232
+
+[auth]
+type = ldap
+ldap_uri = ldaps://kanidm:3636
+ldap_base = o=magisystem
+ldap_reader_dn = dn=token
+ldap_secret_file = /etc/radicale/ldap-token
+ldap_filter = (&(objectClass=person)(memberOf=spn=lilin@auth.magisystem.xyz,o=magisystem)(name={0}))
+ldap_user_attribute = name
+ldap_security = tls
+ldap_ssl_verify_mode = NONE
+ldap_groups_attribute = memberOf
+ldap_group_members_attribute = member
+ldap_group_filter = (&(objectClass=group)(!(objectClass=builtin)))
+
+[rights]
+type = owner_only
+
+[storage]
+filesystem_folder = /var/lib/radicale/collections

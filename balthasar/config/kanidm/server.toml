@@ -1,0 +1,19 @@
+version="2"
+
+bindaddress = "[::]:8443"
+ldapbindaddress = "[::]:3636"
+
+db_path = "/data/kanidm.db"
+# db_fs_type = "zfs"
+
+tls_chain = "/certs/chain.pem"
+tls_key = "/certs/key.pem"
+
+# log_level = "debug"
+
+domain = "auth.magisystem.xyz"
+origin = "https://auth.magisystem.xyz"
+
+[online_backup]
+path = "/data/kanidm/backups/"
+schedule = "00 00 * * *"

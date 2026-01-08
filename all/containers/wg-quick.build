@@ -1,0 +1,8 @@
+[Unit]
+Description=Wireguard Image build
+
+[Build]
+File=/etc/containers/systemd/wg-quick.Containerfile
+ImageTag=wg-quick:latest
+Pull=newer
+ForceRM=true

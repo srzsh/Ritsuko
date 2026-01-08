@@ -1,0 +1,11 @@
+[Unit]
+Description=Trigger %i service daily
+
+[Timer]
+OnCalendar=daily
+AccuracySec=6h
+RandomizedDelaySec=1h
+Unit=%i.service
+
+[Install]
+WantedBy=timers.target

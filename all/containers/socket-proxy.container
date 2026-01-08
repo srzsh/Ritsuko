@@ -1,0 +1,15 @@
+[Unit]
+Description=Socket Proxy container
+Requires=podman.socket
+After=podman.socket
+
+[Container]
+ContainerName=socket-proxy
+AutoUpdate=registry
+Image=lscr.io/linuxserver/socket-proxy:latest
+UserNS=host
+ReadOnly=true
+Tmpfs=/run
+Environment=CONTAINERS=1
+Network=services.network
+Volume=/run/podman/podman.sock:/var/run/docker.sock:ro,z

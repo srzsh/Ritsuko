@@ -1,0 +1,21 @@
+[Unit]
+Description=Radicale Container
+
+[Container]
+ContainerName=radicale
+AutoUpdate=registry
+Image=docker.io/grepular/radicale:3
+Network=services.network
+User=1000
+Group=1000
+Volume=/etc/magisystem/radicale:/etc/radicale:ro,Z,idmap=gids=@0-1000-1
+Volume=/var/magisystem/radicale:/var/lib/radicale:U,Z
+Label=traefik.enable=true
+Label="traefik.http.routers.radicale.rule=Host(`radicale.magisystem.xyz`) || Host(`dav.magisystem.xyz`)"
+Label=traefik.http.services.radicale.loadBalancer.server.port=5232
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/radicale
+
+[Install]
+WantedBy=magisystem.target

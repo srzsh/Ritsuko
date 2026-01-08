@@ -1,0 +1,29 @@
+[Unit]
+Description=Kanidm container
+Wants=kanidm-generate-certificates.container
+After=kanidm-generate-certificates.container
+
+[Container]
+ContainerName=kanidm
+AutoUpdate=registry
+Image=docker.io/kanidm/server:latest
+Network=services.network
+Environment=KANIDM_CONFIG=/config/server.toml
+Volume=/etc/magisystem/kanidm:/config:ro,Z,idmap=gids=@0-1000-1
+Volume=/var/magisystem/kanidm/data:/data:U,Z
+Volume=/var/magisystem/kanidm/certs:/certs:U,z
+User=1000
+Group=1000
+Label=traefik.enable=true
+Label="traefik.http.routers.kanidm.rule=Host(`auth.magisystem.xyz`)"
+Label=traefik.http.services.kanidm.loadBalancer.server.port=8443
+Label=traefik.http.services.kanidm.loadBalancer.server.scheme=https
+Label=traefik.http.services.kanidm.loadBalancer.serversTransport=kanidm@file
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/kanidm/data
+ExecStartPre=mkdir -m 755 -p /var/magisystem/kanidm/certs
+ExecStartPre=chmod -R o= /etc/magisystem/kanidm
+
+[Install]
+WantedBy=magisystem.target

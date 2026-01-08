@@ -1,0 +1,21 @@
+[Unit]
+Description=Wireguard container for config %i.conf
+Wants=systemd-modules-load.service
+After=systemd-modules-load.service
+
+[Container]
+ContainerName=wg-quick-%i
+AutoUpdate=local
+Image=wg-quick.build
+Exec=%i
+AddCapability=NET_ADMIN SYS_MODULE
+UserNS=host
+Network=host
+# Volume=/lib/modules:/lib/modules:ro
+Volume=/etc/magisystem/wireguard:/etc/wireguard:ro
+
+[Service]
+ExecStartPre=bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/src_valid_mark'
+
+[Install]
+WantedBy=magisystem.target

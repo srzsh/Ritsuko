@@ -1,0 +1,6 @@
+[Unit]
+Description=Nextcloud background job scheduler
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/podman exec --user www-data nextcloud php cron.php

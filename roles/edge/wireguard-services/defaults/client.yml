@@ -1,2 +1,0 @@
----
-wireguard_services_server: '{{ undef(hint="Inventory Hostname for network server") }}'

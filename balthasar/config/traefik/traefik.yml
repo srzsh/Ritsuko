@@ -1,0 +1,48 @@
+---
+providers:
+  docker:
+    network: services
+    endpoint: "tcp://socket-proxy:2375"
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/configs
+
+api:
+  dashboard: true
+
+entryPoints:
+  http:
+    address: "[::]:80"
+    allowACMEByPass: true
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+          permanent: true
+          priority: 1
+
+  https:
+    address: "[::]:443"
+    allowACMEByPass: true
+    http3: {}
+    http:
+      tls:
+        certResolver: tls-resolver
+    transport:
+      respondingTimeouts:
+        readTimeout: 10m
+    asDefault: true
+
+  admin:
+    address: "[::]:8080"
+
+certificatesResolvers:
+  tls-resolver:
+    acme:
+      email: "srsh@magisystem.xyz"
+      # caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      tlsChallenge: {}
+
+# log:
+#   level: DEBUG
