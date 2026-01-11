@@ -1,0 +1,27 @@
+[Unit]
+Description=RSS-Bridge OAuth Proxy Container
+Wants=kanidm.container traefik.container
+After=kanidm.container traefik.container
+StartLimitBurst=3
+StartLimitIntervalSec=90s
+
+[Container]
+ContainerName=rss-bridge-auth
+Pod=rss-bridge.pod
+Network=services.network
+AutoUpdate=registry
+Image=quay.io/oauth2-proxy/oauth2-proxy:latest-alpine
+User=1000
+Group=1000
+EnvironmentFile=/etc/magisystem/rss-bridge/proxy.env
+Environment=OAUTH2_PROXY_HTTP_ADDRESS=[::]:4180
+Environment=OAUTH2_PROXY_EMAIL_DOMAINS=*
+Environment=OAUTH2_PROXY_CODE_CHALLENGE_METHOD=S256
+Label=traefik.enable=true
+Label="traefik.http.routers.rss-bridge-auth-proxy.rule=Host(`rss.magisystem.xyz`) && PathPrefix(`/oauth2/`)"
+Label=traefik.http.services.rss-bridge-auth-proxy.loadBalancer.server.port=4180
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/rss-bridge/cache
+Restart=on-failure
+RestartSec=30s
