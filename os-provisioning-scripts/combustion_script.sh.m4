@@ -57,7 +57,6 @@ cat > /etc/sudoers.d/90-allow-user-nopasswd <<-EOF
 	$NEW_USER ALL=(ALL:ALL) NOPASSWD: ALL
 EOF
 
-echo 'Include /etc/ssh/sshd_config.d/*' >> /etc/ssh/sshd_config
 mkdir /etc/ssh/sshd_config.d || true
 
 cat > /etc/ssh/sshd_config.d/40-prohibit-root-login.conf <<-EOF
