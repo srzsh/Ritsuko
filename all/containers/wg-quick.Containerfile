@@ -10,7 +10,7 @@ exec /sbin/init
 EOF
 
 RUN cat > /etc/inittab <<'EOF'
-::wait:/bin/sh -c 'modprobe wireguard; wg-quick up $CONFIG_NAME'
+::wait:/bin/sh -c 'wg-quick up $CONFIG_NAME'
 ::shutdown:/bin/sh -c 'wg-quick down $CONFIG_NAME'
 EOF
 

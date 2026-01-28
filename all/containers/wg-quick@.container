@@ -8,10 +8,9 @@ ContainerName=wg-quick-%i
 AutoUpdate=local
 Image=wg-quick.build
 Exec=%i
-AddCapability=NET_ADMIN SYS_MODULE
+AddCapability=NET_ADMIN
 UserNS=host
 Network=host
-# Volume=/lib/modules:/lib/modules:ro
 Volume=/etc/magisystem/wireguard:/etc/wireguard:ro,Z
 
 [Service]
