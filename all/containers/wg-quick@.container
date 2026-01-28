@@ -12,7 +12,7 @@ AddCapability=NET_ADMIN SYS_MODULE
 UserNS=host
 Network=host
 # Volume=/lib/modules:/lib/modules:ro
-Volume=/etc/magisystem/wireguard:/etc/wireguard:ro
+Volume=/etc/magisystem/wireguard:/etc/wireguard:ro,Z
 
 [Service]
 ExecStartPre=bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/src_valid_mark'
