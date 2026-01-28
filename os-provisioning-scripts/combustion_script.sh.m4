@@ -70,10 +70,6 @@ cat > /etc/ssh/sshd_config.d/40-disable-password-authentication.conf <<-EOF
 	KbdInteractiveAuthentication no
 EOF
 
-cat > /etc/ssh/sshd_config.d/40-use-pam.conf <<-EOF
-	UsePAM yes
-EOF
-
 mv sys-udp.conf /etc/sysctl.d/udp.conf
 
 systemctl enable sshd.service
