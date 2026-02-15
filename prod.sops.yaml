@@ -6,10 +6,10 @@ creation_rules:
 
   - path_regex: ayanami
     age: >
-      age1e65gc459h2m4xcg9nk2demct2wkdtlwcphuwcal0d5uxzpazga6qfel4ws
-#     ,PLACEHOLDER_AYANAMI_KEY
+      age1e65gc459h2m4xcg9nk2demct2wkdtlwcphuwcal0d5uxzpazga6qfel4ws,
+      age17697zgmyfmg6arc5ht23f39velujw749utcqh2nd74qyufe0xsvqhfdj9r
 
   - age: >
       age1e65gc459h2m4xcg9nk2demct2wkdtlwcphuwcal0d5uxzpazga6qfel4ws,
-      age1f4dxls4u04tqn242dvj8wygnalfkgtvnrwuexj0rr62wc2u68d6q689uhm
-#     ,PLACEHOLDER_AYANAMI_KEY
+      age1f4dxls4u04tqn242dvj8wygnalfkgtvnrwuexj0rr62wc2u68d6q689uhm,
+      age17697zgmyfmg6arc5ht23f39velujw749utcqh2nd74qyufe0xsvqhfdj9r
