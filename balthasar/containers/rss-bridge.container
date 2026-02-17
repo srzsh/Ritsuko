@@ -14,13 +14,13 @@ Label=traefik.enable=true
 Label="traefik.http.routers.rss-bridge.rule=Host(`rss.magisystem.xyz`)"
 Label=traefik.http.routers.rss-bridge.middlewares=rss-bridge-auth-redirect,rss-bridge-auth
 Label=traefik.http.routers.rss-bridge.service=rss-bridge
+Label="traefik.http.routers.rss-bridge-feed.rule=Host(`rss.magisystem.xyz`) && (PathPrefix(`/static`) || Query(`action`, `display`) || Query(`action`, `health`))"
+Label=traefik.http.routers.rss-bridge-feed.service=rss-bridge
 Label=traefik.http.middlewares.rss-bridge-auth.forwardAuth.address=http://rss-bridge-auth:4180/oauth2/auth
 Label=traefik.http.middlewares.rss-bridge-auth.forwardAuth.trustForwardHeader=true
 Label=traefik.http.middlewares.rss-bridge-auth-redirect.errors.status=401-403
 Label=traefik.http.middlewares.rss-bridge-auth-redirect.errors.service=rss-bridge-auth-proxy
 Label=traefik.http.middlewares.rss-bridge-auth-redirect.errors.query=/oauth2/sign_in?rd={url}
-Label="traefik.http.routers.rss-bridge-feed.rule=Host(`rss.magisystem.xyz`) && (PathPrefix(`/static`) || Query(`action`, `display`) || Query(`action`, `health`))"
-Label=traefik.http.routers.rss-bridge-feed.service=rss-bridge
 Label=traefik.http.services.rss-bridge.loadBalancer.server.port=80
 
 [Service]
