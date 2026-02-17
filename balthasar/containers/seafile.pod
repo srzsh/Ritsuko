@@ -1,8 +1,0 @@
-[Unit]
-Description=Seafile pod
-
-[Pod]
-PodName=seafile
-Network=services.network
-UserNS=auto:size=65536
-Volume=seafile-database-socket.volume:/run/mysqld

@@ -1,8 +1,0 @@
-[Unit]
-Description=Seafile database socket volume
-
-[Volume]
-VolumeName=seafile-database-socket
-
-[Service]
-ExecStop=/usr/bin/podman volume rm seafile-database-socket
