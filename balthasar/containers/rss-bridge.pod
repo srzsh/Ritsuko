@@ -3,8 +3,9 @@ Description=RSS-Bridge pod
 
 [Pod]
 PodName=rss-bridge
-# Network=services.network
-Network=none
+Network=services.network
+NetworkAlias=rss-bridge
+NetworkAlias=rss-bridge-auth
 
 [Install]
 WantedBy=magisystem.target

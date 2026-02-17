@@ -4,7 +4,6 @@ Description=RSS-Bridge Container
 [Container]
 ContainerName=rss-bridge
 Pod=rss-bridge.pod
-Network=services.network
 AutoUpdate=registry
 Image=ghcr.io/rss-bridge/rss-bridge
 # User=1000

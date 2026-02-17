@@ -8,7 +8,6 @@ StartLimitIntervalSec=90s
 [Container]
 ContainerName=rss-bridge-auth
 Pod=rss-bridge.pod
-Network=services.network
 AutoUpdate=registry
 Image=quay.io/oauth2-proxy/oauth2-proxy:latest-alpine
 User=1000
