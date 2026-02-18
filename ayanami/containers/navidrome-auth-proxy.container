@@ -18,7 +18,7 @@ Environment=OAUTH2_PROXY_EMAIL_DOMAINS=*
 Environment=OAUTH2_PROXY_CODE_CHALLENGE_METHOD=S256
 Environment=OAUTH2_PROXY_SET_XAUTHREQUEST=true
 Label=traefik.enable=true
-Label="traefik.http.routers.navidrome-auth-proxy.rule=(Host(`music.magisystem.xyz`) || Host(`navidrome.magisystem.xyz`)) && PathPrefix(`/oauth2/`)"
+Label=traefik.http.routers.navidrome-auth-proxy.rule=(Host(`music.magisystem.xyz`) || Host(`navidrome.magisystem.xyz`)) && PathPrefix(`/oauth2/`)
 Label=traefik.http.services.navidrome-auth-proxy.loadBalancer.server.port=4180
 
 [Service]

@@ -15,7 +15,7 @@ Volume=/var/magisystem/kanidm/certs:/certs:U,z
 User=1000
 Group=1000
 Label=traefik.enable=true
-Label="traefik.http.routers.kanidm.rule=Host(`auth.magisystem.xyz`)"
+Label=traefik.http.routers.kanidm.rule=Host(`auth.magisystem.xyz`) || Host(`kanidm.services.magisystem.xyz`)
 Label=traefik.http.services.kanidm.loadBalancer.server.port=8443
 Label=traefik.http.services.kanidm.loadBalancer.server.scheme=https
 Label=traefik.http.services.kanidm.loadBalancer.serversTransport=kanidm@file

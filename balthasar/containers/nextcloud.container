@@ -17,7 +17,7 @@ Environment="TRUSTED_PROXIES=10.1.0.0/16 fc00:0:0:100::/64"
 # Volume=/etc/magisystem/nextcloud:/etc/nextcloud:ro,Z,idmap=uids=@0-1000-1
 Volume=/var/magisystem/nextcloud:/var/www/html:U,Z
 Label=traefik.enable=true
-Label="traefik.http.routers.nextcloud.rule=Host(`cloud.magisystem.xyz`) || Host(`nextcloud.magisystem.xyz`)"
+Label=traefik.http.routers.nextcloud.rule=Host(`cloud.magisystem.xyz`) || Host(`nextcloud.services.magisystem.xyz`)
 Label=traefik.http.routers.nextcloud.middlewares=nextcloud-headers
 Label=traefik.http.middlewares.nextcloud-headers.headers.stsSeconds=15552000
 Label=traefik.http.middlewares.nextcloud-headers.headers.stsIncludeSubdomains=true
