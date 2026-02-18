@@ -7,4 +7,6 @@ changequote([`], ['])
 ifelse(new_user_ssh_pubkey, `',
 		`errprint(`Could not get ssh pubkey from agent
 ')m4exit(`1')')
+define(`nfs_endpoint', `192.168.0.201')
+define(`nfs_path', `/mnt/ayanami/ayanami')
 divert(`0')dnl
