@@ -1,6 +1,7 @@
 [Unit]
 Description=Nextcloud Container
 Upholds=nextcloud-cron.timer
+Before=nextcloud-cron.timer
 PropagatesStopTo=nextcloud-cron.timer
 
 [Container]
