@@ -1,0 +1,10 @@
+[Unit]
+Description=Navidrome pod
+
+[Pod]
+PodName=navidrome
+Network=services.network
+NetworkAlias=navidrome,navidrome-auth
+
+[Install]
+WantedBy=magisystem.target

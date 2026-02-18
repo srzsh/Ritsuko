@@ -1,0 +1,26 @@
+[Unit]
+Description=Navidrome OAuth Proxy Container
+Wants=kanidm.container traefik.container
+After=kanidm.container traefik.container
+StartLimitBurst=3
+StartLimitIntervalSec=90s
+
+[Container]
+ContainerName=navidrome-auth
+Pod=navidrome.pod
+AutoUpdate=registry
+Image=quay.io/oauth2-proxy/oauth2-proxy:latest-alpine
+User=1000
+Group=1000
+EnvironmentFile=/etc/magisystem/navidrome/proxy.env
+Environment=OAUTH2_PROXY_HTTP_ADDRESS=[::]:4180
+Environment=OAUTH2_PROXY_EMAIL_DOMAINS=*
+Environment=OAUTH2_PROXY_CODE_CHALLENGE_METHOD=S256
+Environment=OAUTH2_PROXY_SET_XAUTHREQUEST=true
+Label=traefik.enable=true
+Label="traefik.http.routers.navidrome-auth-proxy.rule=(Host(`music.magisystem.xyz`) || Host(`navidrome.magisystem.xyz`)) && PathPrefix(`/oauth2/`)"
+Label=traefik.http.services.navidrome-auth-proxy.loadBalancer.server.port=4180
+
+[Service]
+Restart=on-failure
+RestartSec=30s

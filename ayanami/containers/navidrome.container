@@ -1,0 +1,40 @@
+[Unit]
+Description=Navidrome Container
+
+[Container]
+ContainerName=navidrome
+Pod=navidrome.pod
+AutoUpdate=registry
+Image=ghcr.io/navidrome/navidrome
+User=1000
+Group=1000
+
+Environment=ND_SESSIONTIMEOUT=24h
+Environment=ND_TRANSCODINGCACHESIZE=1 GiB
+# Environment=ND_ENABLETRANSCODINGCONFIG=true
+Environment=ND_ENABLESHARING=true
+Environment=ND_EXTAUTH_TRUSTEDSOURCES=fc00:0:0:200::/64,10.2.0.0/16
+Environment=ND_EXTAUTH_USERHEADER=X-Auth-Request-Preferred-Username
+Environment=ND_SUBSONIC_ARTISTPARTICIPATIONS=true
+# Environment=ND_LOGLEVEL=debug
+EnvironmentFile=/etc/magisystem/navidrome/external-services.env
+
+Volume=/var/magisystem/navidrome:/data:U,Z
+Volume=/mnt/music:/music:z,ro
+
+Label=traefik.enable=true
+Label="traefik.http.routers.navidrome.rule=Host(`music.magisystem.xyz`) || Host(`navidrome.magisystem.xyz`)"
+Label=traefik.http.routers.navidrome.middlewares=navidrome-auth-redirect,navidrome-auth
+Label=traefik.http.routers.navidrome.service=navidrome
+Label="traefik.http.routers.navidrome-api.rule=(Host(`music.magisystem.xyz`) || Host(`navidrome.magisystem.xyz`)) && (PathPrefix(`/rest`) || PathPrefix(`/share`))"
+Label=traefik.http.routers.navidrome-api.service=navidrome
+Label=traefik.http.middlewares.navidrome-auth.forwardAuth.address=http://navidrome-auth:4180/oauth2/auth
+Label=traefik.http.middlewares.navidrome-auth.forwardAuth.trustForwardHeader=true
+Label=traefik.http.middlewares.navidrome-auth.forwardAuth.authResponseHeadersRegex=^X-Auth-Request-
+Label=traefik.http.middlewares.navidrome-auth-redirect.errors.status=401-403
+Label=traefik.http.middlewares.navidrome-auth-redirect.errors.service=navidrome-auth-proxy
+Label=traefik.http.middlewares.navidrome-auth-redirect.errors.query=/oauth2/sign_in?rd={url}
+Label=traefik.http.services.navidrome.loadBalancer.server.port=4533
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/navidrome
