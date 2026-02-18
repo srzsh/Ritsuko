@@ -1,0 +1,31 @@
+[Unit]
+Description=Update DNS Records
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/magisystem/dyndns/api-token.env
+ExecStart=-/usr/bin/bash -ec "/usr/bin/curl \'https://api.hetzner.cloud/v1/zones/magisystem.xyz/rrsets/ayanami/A/actions/set_records\' \
+  --request POST \
+  --header \'Content-Type: application/json\' \
+  --header \"Authorization: Bearer $HETZNER_API_TOKEN\" \
+  --data \'{ \
+		\"records\": [\
+			{\
+				\"value\": \"\'\"$(/usr/bin/curl -4 https://ipv4.icanhazip.com)\"\'\",\
+				\"comment\": \"Set by update-dyndns on \'\"$(/usr/bin/date)\"\'\"\
+			}\
+		]\
+	}\'"
+
+ExecStart=-/usr/bin/bash -ec "/usr/bin/curl \'https://api.hetzner.cloud/v1/zones/magisystem.xyz/rrsets/ayanami/AAAA/actions/set_records\' \
+  --request POST \
+  --header \'Content-Type: application/json\' \
+  --header \"Authorization: Bearer $HETZNER_API_TOKEN\" \
+  --data \'{ \
+		\"records\": [\
+			{\
+				\"value\": \"\'\"$(/usr/bin/curl -6 https://icanhazip.com)\"\'\",\
+				\"comment\": \"Set by update-dyndns on \'\"$(/usr/bin/date)\"\'\"\
+			}\
+		]\
+	}\'"

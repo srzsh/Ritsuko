@@ -1,0 +1,9 @@
+[Unit]
+Description=Trigger DNS Update
+
+[Timer]
+Persistent=true
+OnUnitInactiveSec=30m
+
+[Install]
+WantedBy=network-online.target
