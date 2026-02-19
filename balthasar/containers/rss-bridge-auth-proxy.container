@@ -17,7 +17,7 @@ Environment=OAUTH2_PROXY_HTTP_ADDRESS=[::]:4180
 Environment=OAUTH2_PROXY_EMAIL_DOMAINS=*
 Environment=OAUTH2_PROXY_CODE_CHALLENGE_METHOD=S256
 Label=traefik.enable=true
-Label=traefik.http.routers.rss-bridge-auth-proxy.rule=(Host(`rss.magisystem.xyz`) || Host(`rss-bridge.magisystem.xyz`)) && PathPrefix(`/oauth2/`)
+Label="traefik.http.routers.rss-bridge-auth-proxy.rule=(Host(`rss.magisystem.xyz`) || Host(`rss-bridge.magisystem.xyz`)) && PathPrefix(`/oauth2/`)"
 Label=traefik.http.services.rss-bridge-auth-proxy.loadBalancer.server.port=4180
 
 [Service]

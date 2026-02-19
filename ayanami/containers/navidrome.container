@@ -26,7 +26,7 @@ Label=traefik.enable=true
 Label=traefik.http.routers.navidrome.rule=Host(`music.magisystem.xyz`) || Host(`navidrome.services.magisystem.xyz`)
 Label=traefik.http.routers.navidrome.middlewares=navidrome-auth-redirect,navidrome-auth
 Label=traefik.http.routers.navidrome.service=navidrome
-Label=traefik.http.routers.navidrome-api.rule=(Host(`music.magisystem.xyz`) || Host(`navidrome.services.magisystem.xyz`)) && (PathPrefix(`/rest`) || PathPrefix(`/share`))
+Label="traefik.http.routers.navidrome-api.rule=(Host(`music.magisystem.xyz`) || Host(`navidrome.services.magisystem.xyz`)) && (PathPrefix(`/rest`) || PathPrefix(`/share`))"
 Label=traefik.http.routers.navidrome-api.service=navidrome
 Label=traefik.http.middlewares.navidrome-auth.forwardAuth.address=http://navidrome-auth:4180/oauth2/auth
 Label=traefik.http.middlewares.navidrome-auth.forwardAuth.trustForwardHeader=true
