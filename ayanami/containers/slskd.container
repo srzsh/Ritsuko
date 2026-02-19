@@ -1,0 +1,41 @@
+[Unit]
+Description=Slskd Container
+Wants=daily@slskd-clean-older-downloads.timer
+Before=daily@slskd-clean-older-downloads.timer
+
+[Container]
+ContainerName=slskd
+Pod=slskd.pod
+AutoUpdate=registry
+Image=ghcr.io/slskd/slskd
+User=1000
+Group=1000
+
+Environment=SLSKD_SHARED_DIR=/music
+Environment=SLSKD_DOWNLOADS_DIR=/downloads
+Environment=SLSKD_NO_AUTH=true
+Environment=SLSKD_UPLOAD_SPEED_LIMIT=1048576
+Environment=SLSKD_DOWNLOAD_SPEED_LIMIT=1048576
+EnvironmentFile=/etc/magisystem/slskd/credentials.env
+
+Volume=/var/magisystem/slskd/data:/app:U,Z
+Volume=/var/magisystem/slskd/downloads:/downloads:U,z
+Volume=/mnt/music:/music:z,ro
+
+Label=traefik.enable=true
+Label=traefik.http.routers.slskd.rule=Host(`music.slsk.magisystem.xyz`) || Host(`slskd.services.magisystem.xyz`)
+Label=traefik.http.routers.slskd.middlewares=slskd-auth-redirect,slskd-auth
+Label=traefik.http.routers.slskd.service=slskd
+# Label=traefik.http.routers.slskd-api.rule=(Host(`music.slsk.magisystem.xyz`) || Host(`slskd.services.magisystem.xyz`)) && (PathPrefix(`/rest`) || PathPrefix(`/share`))
+# Label=traefik.http.routers.slskd-api.service=slskd
+Label=traefik.http.middlewares.slskd-auth.forwardAuth.address=http://slskd-auth:4180/oauth2/auth
+Label=traefik.http.middlewares.slskd-auth.forwardAuth.trustForwardHeader=true
+Label=traefik.http.middlewares.slskd-auth.forwardAuth.authResponseHeadersRegex=^X-Auth-Request-
+Label=traefik.http.middlewares.slskd-auth-redirect.errors.status=401-403
+Label=traefik.http.middlewares.slskd-auth-redirect.errors.service=slskd-auth-proxy
+Label=traefik.http.middlewares.slskd-auth-redirect.errors.query=/oauth2/sign_in?rd={url}
+Label=traefik.http.services.slskd.loadBalancer.server.port=5030
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/slskd/data
+ExecStartPre=mkdir -m 770 -p /var/magisystem/slskd/downloads

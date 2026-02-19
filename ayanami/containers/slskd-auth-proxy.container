@@ -1,0 +1,26 @@
+[Unit]
+Description=Slskd OAuth Proxy Container
+Wants=kanidm.container traefik.container
+After=kanidm.container traefik.container
+StartLimitBurst=3
+StartLimitIntervalSec=90s
+
+[Container]
+ContainerName=slskd-auth
+Pod=slskd.pod
+AutoUpdate=registry
+Image=quay.io/oauth2-proxy/oauth2-proxy:latest-alpine
+User=1000
+Group=1000
+EnvironmentFile=/etc/magisystem/slskd/proxy.env
+Environment=OAUTH2_PROXY_HTTP_ADDRESS=[::]:4180
+Environment=OAUTH2_PROXY_EMAIL_DOMAINS=*
+Environment=OAUTH2_PROXY_CODE_CHALLENGE_METHOD=S256
+# Environment=OAUTH2_PROXY_SET_XAUTHREQUEST=true
+Label=traefik.enable=true
+Label="traefik.http.routers.slskd-auth-proxy.rule=(Host(`music.slsk.magisystem.xyz`) || Host(`slskd.services.magisystem.xyz`)) && PathPrefix(`/oauth2/`)"
+Label=traefik.http.services.slskd-auth-proxy.loadBalancer.server.port=4180
+
+[Service]
+Restart=on-failure
+RestartSec=30s

@@ -1,0 +1,14 @@
+[Unit]
+Description=Slskd pod
+
+[Pod]
+PodName=slskd
+UserNS=auto
+
+Network=services.network
+NetworkAlias=slskd,slskd-auth
+PublishPort=50300:50300
+PublishPort=[::]:50300:50300
+
+[Install]
+WantedBy=magisystem.target
