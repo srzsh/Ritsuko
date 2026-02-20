@@ -1,0 +1,15 @@
+[Container]
+ContainerName=kanidm
+AutoUpdate=registry
+Image=docker.io/kanidm/server:latest
+Environment=KANIDM_CONFIG=/config/server.toml
+Volume=/etc/magisystem/kanidm:/config:ro,Z,idmap=gids=@0-1000-1
+Volume=/var/magisystem/kanidm/data:/data:U,Z
+Volume=/var/magisystem/kanidm/certs:/certs:U,z
+User=1000
+Group=1000
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/kanidm/data
+ExecStartPre=mkdir -m 755 -p /var/magisystem/kanidm/certs
+ExecStartPre=chmod -R o= /etc/magisystem/kanidm
