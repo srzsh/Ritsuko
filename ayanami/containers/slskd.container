@@ -16,6 +16,7 @@ Environment=SLSKD_DOWNLOADS_DIR=/downloads
 Environment=SLSKD_NO_AUTH=true
 Environment=SLSKD_UPLOAD_SPEED_LIMIT=102400
 Environment=SLSKD_DOWNLOAD_SPEED_LIMIT=51200
+Environment=SLSKD_UMASK=0002
 
 EnvironmentFile=/etc/magisystem/slskd/credentials.env
 
