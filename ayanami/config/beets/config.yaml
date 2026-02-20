@@ -1,0 +1,91 @@
+plugins: musicbrainz discogs fetchart embedart scrub replaygain chroma inline duplicates badfiles web
+directory: /music
+library: /data/musiclibrary.db
+art_filename: cover
+threaded: true
+original_date: false
+per_disc_numbering: false
+web:
+    host: '::'
+    port: 8337
+    reverse_proxy: true
+    readonly: true
+discogs:
+    user_token: ENC[AES256_GCM,data:yRDzLrpebT7ykpmLphSwrufK7pb6udH/WhTW6rzSkxR8+0G36T4bWg==,iv:bYOfxR68Mu0REItCFXeSUwBUDXnC/EbLLlxXONftfjg=,tag:HxVcRAYBFZ5DvH5MdCVdVQ==,type:str]
+item_fields:
+    multiartist: True if albumartist != artist else ""
+paths:
+    default: $albumartist/$album%aunique{}/$track %if{$multiartist,$artist }- $title
+    singleton: $albumartist/$title
+    comp: $albumartist/$album%aunique{}/$track $artist - $title
+import:
+    write: true
+    move: true
+    languages: en it jp
+    resume: ask
+    incremental: true
+    incremental_skip_later: true
+    quiet_fallback: skip
+    timid: false
+match:
+    strong_rec_thresh: 0.1
+embedart:
+    auto: true
+    remove_art_file: true
+fetchart:
+    auto: true
+replaygain:
+    auto: false
+    backend: ffmpeg
+chroma:
+    auto: true
+scrub:
+    auto: true
+replace:
+    ^\.: _
+    '[\x00-\x1f]': _
+    '[<>:"\?\*\|]': _
+    '[\xE8-\xEB]': e
+    '[\xEC-\xEF]': i
+    '[\xE2-\xE6]': a
+    '[\xF2-\xF6]': o
+    '[\xF8]': o
+    \.$: _
+    \s+$: ""
+clutter:
+    - Thumbs.DB
+    - .DS_Store
+    - '*.png'
+    - '*.jpg'
+    - '*.cue'
+    - '*.log'
+    - '*.m3u'
+    - '*.nfo'
+    - '*.sfv'
+    - '*.txt'
+    - '*.url'
+    - thumbs.db
+sops:
+    age:
+        - recipient: age1e65gc459h2m4xcg9nk2demct2wkdtlwcphuwcal0d5uxzpazga6qfel4ws
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA0QXNNc3JmYWRXYXVYT2N4
+            cVN2OXdndGJ3eDhLUHVKMTV6djFxcjFkdWwwCm1ERTdScW4vVjZNYUU1L05kUWJZ
+            WkpJMzNubjhUcUFWVStNRWQ3eVZtQ3MKLS0tIC9rQ3BLLzgwb0J3V1NPdHp6cGxV
+            RHp6cml0Sk44SEluUS91SFhwcFVpaE0Kc3IZKlq80fyAKpyTE92cNWZoTBGrb4iZ
+            IA25NLt2KvjH2L5kMGWtPvfADchAJE4Y57a7rezCwPWiQhk4GLYnfA==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age17697zgmyfmg6arc5ht23f39velujw749utcqh2nd74qyufe0xsvqhfdj9r
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBSc2JCcXNqdW5mOEF0T0l5
+            di9VUUZxYnNENCtWVTVCTCtENVMvUlk2N1E0CnZGVkliWkhacjNpeCtxVlFqbDNE
+            RitQZzZYTkNZQmN4a2xLVGJMMVJNd1EKLS0tIHp3cWoxZ0RVRmYwWGUySENsdDdl
+            NUNGQmhqNnlTYW5mbTM3UGRDczdlRVkKHEw8/KT9vP4ipcxe0ZcekfjP0DFxW6Gn
+            OgbCLyJ6tqiCF8roqYiSYvjoqGOv4BkFhSp4UNZJR+UzKMwv/uNWZA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-02-20T13:07:12Z"
+    mac: ENC[AES256_GCM,data:2xBSSJj1uXDHByMl3KvYt1dQP46irncqwWtkIu1LaL7MclwZ6zt2DC8vowz/MASzY4jVj23emrYPnCydJTrdiUaXQHiyBEmIASfKWHz0Zh1c2hktzvlPhUVLILl5MsP0cssyxqo0pVzw05WjV2W4IT+R51LT0B8UW76BM1uRMpg=,iv:6sFAIXc4cpjoWWYhA7SJsV00oiqNZjIsh1/vNb7weEA=,tag:CNTm3uYwbZhuvSG9H0itTA==,type:str]
+    encrypted_suffix: user_token
+    version: 3.11.0

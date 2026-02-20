@@ -1,0 +1,8 @@
+[Unit]
+Description=Import music with Beets
+
+[Timer]
+OnActiveSec=0
+OnUnitInactiveSec=10m
+AccuracySec=1m
+

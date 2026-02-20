@@ -1,0 +1,6 @@
+[Unit]
+Description=Import music with Beets
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/podman exec --user 1001:1000 beets beet import -q /downloads
