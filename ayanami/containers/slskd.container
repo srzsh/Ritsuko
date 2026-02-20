@@ -14,8 +14,9 @@ Group=1000
 Environment=SLSKD_SHARED_DIR=/music
 Environment=SLSKD_DOWNLOADS_DIR=/downloads
 Environment=SLSKD_NO_AUTH=true
-Environment=SLSKD_UPLOAD_SPEED_LIMIT=1048576
-Environment=SLSKD_DOWNLOAD_SPEED_LIMIT=1048576
+Environment=SLSKD_UPLOAD_SPEED_LIMIT=102400
+Environment=SLSKD_DOWNLOAD_SPEED_LIMIT=51200
+
 EnvironmentFile=/etc/magisystem/slskd/credentials.env
 
 Volume=/var/magisystem/slskd/data:/app:U,Z
