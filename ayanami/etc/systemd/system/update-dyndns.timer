@@ -2,7 +2,7 @@
 Description=Trigger DNS Update
 
 [Timer]
-Persistent=true
+OnActiveSec=0
 OnUnitInactiveSec=30m
 
 [Install]
