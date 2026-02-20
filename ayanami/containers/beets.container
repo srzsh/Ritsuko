@@ -1,0 +1,29 @@
+[Unit]
+Description=Beets Container
+# Upholds=beets-import.timer
+# Before=beets-import.timer
+After=slskd.pod
+# PropagatesStopTo=beets-import.timer
+
+[Container]
+ContainerName=beets
+AutoUpdate=registry
+Image=lscr.io/linuxserver/beets
+Pod=slskd.pod
+StartWithPod=false
+Environment=PUID=1001
+Environment=PGID=1000
+Environment=TZ=Europe/Rome
+
+Volume=/etc/magisystem/beets:/config:Z,idmap=uids=@0-1001-1;gids=@0-1000-1
+Volume=/var/magisystem/beets:/data:U,Z
+Volume=/var/magisystem/slskd/downloads:/downloads:z
+Volume=/mnt/music:/music:z
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/beets
+ExecStartPre=mkdir -m 770 -p /var/magisystem/slskd/downloads
+ExecStartPost=/usr/bin/podman exec beets chown -R 1001:1000 /data
+
+[Install]
+WantedBy=magisystem.target
