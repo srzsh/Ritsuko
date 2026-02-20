@@ -10,7 +10,7 @@ User=1000
 Group=1000
 
 Environment=ND_SESSIONTIMEOUT=24h
-Environment=ND_TRANSCODINGCACHESIZE=1 GiB
+Environment='ND_TRANSCODINGCACHESIZE=1 GiB'
 # Environment=ND_ENABLETRANSCODINGCONFIG=true
 Environment=ND_ENABLESHARING=true
 Environment=ND_EXTAUTH_TRUSTEDSOURCES=fc00:0:0:200::/64,10.2.0.0/16
@@ -23,7 +23,7 @@ Volume=/var/magisystem/navidrome:/data:U,Z
 Volume=/mnt/music:/music:z,ro
 
 Label=traefik.enable=true
-Label=traefik.http.routers.navidrome.rule=Host(`music.magisystem.xyz`) || Host(`navidrome.services.magisystem.xyz`)
+Label="traefik.http.routers.navidrome.rule=Host(`music.magisystem.xyz`) || Host(`navidrome.services.magisystem.xyz`)"
 Label=traefik.http.routers.navidrome.middlewares=navidrome-auth-redirect,navidrome-auth
 Label=traefik.http.routers.navidrome.service=navidrome
 Label="traefik.http.routers.navidrome-api.rule=(Host(`music.magisystem.xyz`) || Host(`navidrome.services.magisystem.xyz`)) && (PathPrefix(`/rest`) || PathPrefix(`/share`))"

@@ -23,7 +23,7 @@ Volume=/var/magisystem/slskd/downloads:/downloads:U,z
 Volume=/mnt/music:/music:z,ro
 
 Label=traefik.enable=true
-Label=traefik.http.routers.slskd.rule=Host(`music.slsk.magisystem.xyz`) || Host(`slskd.services.magisystem.xyz`)
+Label="traefik.http.routers.slskd.rule=Host(`music.slsk.magisystem.xyz`) || Host(`slskd.services.magisystem.xyz`)"
 Label=traefik.http.routers.slskd.middlewares=slskd-auth-redirect,slskd-auth
 Label=traefik.http.routers.slskd.service=slskd
 # Label=traefik.http.routers.slskd-api.rule=(Host(`music.slsk.magisystem.xyz`) || Host(`slskd.services.magisystem.xyz`)) && (PathPrefix(`/rest`) || PathPrefix(`/share`))

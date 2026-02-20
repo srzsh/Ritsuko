@@ -11,7 +11,7 @@ Group=1000
 Volume=/etc/magisystem/radicale:/etc/radicale:ro,Z,idmap=gids=@0-1000-1
 Volume=/var/magisystem/radicale:/var/lib/radicale:U,Z
 Label=traefik.enable=true
-Label=traefik.http.routers.radicale.rule=Host(`dav.magisystem.xyz`) || Host(`radicale.services.magisystem.xyz`)
+Label="traefik.http.routers.radicale.rule=Host(`dav.magisystem.xyz`) || Host(`radicale.services.magisystem.xyz`)"
 Label=traefik.http.services.radicale.loadBalancer.server.port=5232
 
 [Service]
