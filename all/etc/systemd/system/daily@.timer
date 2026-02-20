@@ -5,6 +5,7 @@ Description=Trigger %i service daily
 OnCalendar=daily
 AccuracySec=6h
 RandomizedDelaySec=1h
+Persistent=true
 Unit=%i.service
 
 [Install]
