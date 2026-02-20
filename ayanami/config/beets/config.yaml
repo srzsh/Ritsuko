@@ -28,7 +28,7 @@ import:
     quiet_fallback: skip
     timid: false
 match:
-    strong_rec_thresh: 0.1
+    strong_rec_thresh: 0.15
 embedart:
     auto: true
     remove_art_file: true
@@ -85,7 +85,7 @@ sops:
             NUNGQmhqNnlTYW5mbTM3UGRDczdlRVkKHEw8/KT9vP4ipcxe0ZcekfjP0DFxW6Gn
             OgbCLyJ6tqiCF8roqYiSYvjoqGOv4BkFhSp4UNZJR+UzKMwv/uNWZA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-02-20T13:07:12Z"
-    mac: ENC[AES256_GCM,data:2xBSSJj1uXDHByMl3KvYt1dQP46irncqwWtkIu1LaL7MclwZ6zt2DC8vowz/MASzY4jVj23emrYPnCydJTrdiUaXQHiyBEmIASfKWHz0Zh1c2hktzvlPhUVLILl5MsP0cssyxqo0pVzw05WjV2W4IT+R51LT0B8UW76BM1uRMpg=,iv:6sFAIXc4cpjoWWYhA7SJsV00oiqNZjIsh1/vNb7weEA=,tag:CNTm3uYwbZhuvSG9H0itTA==,type:str]
+    lastmodified: "2026-02-20T16:06:06Z"
+    mac: ENC[AES256_GCM,data:XJYgCdQG/a/inFgX92I3XDFtJwq2QMYO/Tlkca3XZ5c5yyZ5rMZ8+hdExZLowKjLtvsCJwnLdF+kYxiCmZr2yllM6UdJ+rzXoF+QQqFVh8mKmoQ9YUYFD9MilXqYSlsHr0wYPRco6hx3pU+DRfcM1yyOVLPZNaYdb3hGKPTmCjU=,iv:HrjC7WMzfcaYig1Uq7EVE4BVlKEnpcyWZBPL0zSPAf0=,tag:kMBeJLHOJmP/G2sLYdEHew==,type:str]
     encrypted_suffix: user_token
     version: 3.11.0
