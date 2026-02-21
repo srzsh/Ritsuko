@@ -1,5 +1,7 @@
 [Unit]
 Description=Import music with Beets
+Requires=beets.service
+After=beets.service
 
 [Service]
 Type=oneshot

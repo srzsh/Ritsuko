@@ -6,3 +6,5 @@ OnActiveSec=0
 OnUnitInactiveSec=10m
 AccuracySec=1m
 
+[Install]
+WantedBy=magisystem.target

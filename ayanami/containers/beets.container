@@ -1,9 +1,6 @@
 [Unit]
 Description=Beets Container
-Upholds=beets-import.timer
-Before=beets-import.timer
 After=slskd.pod
-PropagatesStopTo=beets-import.timer
 
 [Container]
 ContainerName=beets
@@ -24,6 +21,3 @@ Volume=/mnt/music:/music:z
 ExecStartPre=mkdir -m 700 -p /var/magisystem/beets
 ExecStartPre=mkdir -m 770 -p /var/magisystem/slskd/downloads
 ExecStartPost=/usr/bin/podman exec beets chown -R 1001:1000 /data
-
-[Install]
-WantedBy=magisystem.target
