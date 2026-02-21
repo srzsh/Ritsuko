@@ -37,4 +37,5 @@ Label=traefik.http.middlewares.navidrome-auth-redirect.errors.query=/oauth2/sign
 Label=traefik.http.services.navidrome.loadBalancer.server.port=4533
 
 [Service]
+TimeoutStartSec=15m
 ExecStartPre=mkdir -m 700 -p /var/magisystem/navidrome
