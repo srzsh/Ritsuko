@@ -1,7 +1,7 @@
 [Unit]
-Description=Update DNS Records
+Description=Clean older items in the slskd downloads folder
 ConditionPathIsDirectory=/var/magisystem/slskd/downloads
 
 [Service]
 Type=oneshot
-ExecStart=find -H -O2 /var/magisystem/slskd/downloads -mindepth 1 -type d -executable ( -mtime +1 -o -mtime 1 ) -print -delete
+ExecStart=find -H -O2 /var/magisystem/slskd/downloads -mindepth 1 ( -mtime +1 -o -mtime 1 ) -print -delete
