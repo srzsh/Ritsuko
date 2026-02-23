@@ -13,6 +13,12 @@ tls_key = "/certs/key.pem"
 domain = "auth.magisystem.xyz"
 origin = "https://auth.magisystem.xyz"
 
+[http_client_address_info]
+x-forward-for = ['10.1.0.0/16', 'fd00:0:0:100::/64']
+
+[ldap_client_address_info]
+proxy-v2 = ['10.1.0.0/16', 'fd00:0:0:100::/64']
+
 [online_backup]
 path = "/data/kanidm/backups/"
 schedule = "00 00 * * *"

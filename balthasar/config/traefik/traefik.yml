@@ -37,6 +37,9 @@ entryPoints:
   admin:
     address: "[::]:8080"
 
+  ldaps:
+    address: "[::]:636"
+
 certificatesResolvers:
   tls-resolver:
     acme:

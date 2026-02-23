@@ -6,3 +6,11 @@ http:
       # tls: failed to verify certificate: x509: cannot validate certificate for ... because it doesn't contain any IP SANs
       # rootcas:
       #   - /certs/kanidm/ca.pem
+
+tcp:
+  serversTransports:
+    kanidm:
+      tls:
+        insecureSkipVerify: true
+      proxyProtocol:
+        version: 2
