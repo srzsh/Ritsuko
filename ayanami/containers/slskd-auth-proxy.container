@@ -22,5 +22,6 @@ Label="traefik.http.routers.slskd-auth-proxy.rule=(Host(`music.slsk.magisystem.x
 Label=traefik.http.services.slskd-auth-proxy.loadBalancer.server.port=4180
 
 [Service]
-Restart=on-failure
-RestartSec=30s
+TimeoutStartSec=5m
+# Restart=on-failure
+# RestartSec=30s

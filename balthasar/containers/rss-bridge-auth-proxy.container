@@ -21,5 +21,6 @@ Label="traefik.http.routers.rss-bridge-auth-proxy.rule=(Host(`rss.magisystem.xyz
 Label=traefik.http.services.rss-bridge-auth-proxy.loadBalancer.server.port=4180
 
 [Service]
-Restart=on-failure
-RestartSec=30s
+TimeoutStartSec=5m
+# Restart=on-failure
+# RestartSec=30s
