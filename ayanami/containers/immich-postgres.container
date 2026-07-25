@@ -1,0 +1,21 @@
+[Unit]
+Description=Immich Postgres Container
+
+[Container]
+ContainerName=immich-postgres
+Pod=immich.pod
+AutoUpdate=registry
+Image=ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+ShmSize=128mb
+
+User=1001
+Group=1001
+
+EnvironmentFile=/etc/magisystem/immich/postgres.env
+Environment=POSTGRES_INITDB_ARGS=--data-checksums
+Environment=DB_STORAGE_TYPE=HDD
+
+Volume=/var/magisystem/immich:/var/lib/postgresql/data:U,Z
+
+[Service]
+ExecStartPre=mkdir -m 700 -p /var/magisystem/immich

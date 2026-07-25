@@ -1,0 +1,10 @@
+[Unit]
+Description=Immich pod
+
+[Pod]
+PodName=immich
+Network=services.network
+# NetworkAlias=immich
+
+[Install]
+WantedBy=magisystem.target

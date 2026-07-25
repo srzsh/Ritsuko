@@ -1,0 +1,23 @@
+[Unit]
+Description=Immich Container
+After=immich-postgres.container immich-redis.container
+
+[Container]
+ContainerName=immich
+Pod=immich.pod
+AutoUpdate=registry
+Image=ghcr.io/immich-app/immich-server:release
+User=1000
+Group=1000
+
+Environment=DB_HOSTNAME=localhost
+EnvironmentFile=/etc/magisystem/immich/postgres.env
+Environment=REDIS_HOSTNAME=localhost
+Environment=IMMICH_ALLOW_SETUP=false
+
+Volume=/etc/localtime:/etc/localtime:ro,z
+Volume=/mnt/images:/data:z
+
+Label=traefik.enable=true
+Label="traefik.http.routers.immich.rule=Host(`photo.magisystem.xyz`) || Host(`immich.services.magisystem.xyz`)"
+Label=traefik.http.services.immich.loadBalancer.server.port=2283
