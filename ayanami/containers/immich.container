@@ -11,6 +11,7 @@ User=1000
 Group=1000
 
 Environment="IMMICH_TRUSTED_PROXIES=10.2.0.1,fd00:0:0:200::1"
+Environment="IMMICH_MACHINE_LEARNING_URL=http://localhost:3003"
 Environment=DB_HOSTNAME=localhost
 EnvironmentFile=/etc/magisystem/immich/postgres.env
 Environment=REDIS_HOSTNAME=localhost

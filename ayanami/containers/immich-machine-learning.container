@@ -1,0 +1,13 @@
+[Unit]
+Description=Immich Machine Learning Container
+After=immich-postgres.container immich-redis.container
+
+[Container]
+ContainerName=immich-ml
+Pod=immich.pod
+AutoUpdate=registry
+Image=ghcr.io/immich-app/immich-machine-learning:release
+
+Environment=IMMICH_ALLOW_SETUP=false
+
+Volume=immich-model-cache:/cache
